@@ -1,0 +1,267 @@
+/*  After encountering numerous complex and cluttered audio players, I set out to create a simpler, more user-friendly template. This minimalist HTML audio player with a dynamically generated playlist via a json file loaded through a simple html data attribute aims to provide essential playback controls without unnecessary bloat.  
+
+This JavaScript audio player with playlist provides essential playback controls for audio files. Users can play, pause, skip to the next or previous track, adjust volume, and seek through the audio. The playlist allows for easy navigation between tracks, and the player dynamically updates the song title and artist information. It also features a clean interface and minimalistic design, making it easy for users to customize and integrate into their projects. 
+
++++ Features some "original" Ai tunes */
+
+/* simple reset for default browser css */
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+li {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Colors */
+  --player-background-color: #0D344E; /* Dark blue-grey */
+  --top-title-color: #F0F0F0; /* Light grey */
+  --controls-button-bg-color: #003366; /* Dark blue */
+  --controls-button-text-color: rgba(255, 255, 255, 0.8); /* White with transparency */
+  --controls-button-bg-hover-color: #00264D; /* Darker blue */
+  --playlist-button-text-color: #F0F0F0; /* Shade white */
+  --playlist-border-color: rgba(255, 255, 255, 0.9); /* White with transparency */
+  --mute-button-bg-color: transparent;
+  /* Playlist Font */
+  --playlist-font-family: Verdana, serif;
+  --playlist-text-color: #F0F0F0; /* Light grey */
+  --playlist-height: 80px; /* playlist item/list height */
+  --playlist-bg: #2B2B2B; /* Dark grey */
+  --playlist-bg-hover: #0D344E;  /* Slightly darker grey */
+  --playlist-bg-active: rgba(65,105,225,0.70); /* Blue grey */
+    --playlist-nav-button-bg: #333; /* Dark grey */
+  --playlist-nav-button-bg-hover: #444; /* Slightly darker grey */
+}
+.parent-container {
+  width: 95%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+/* Container for the entire audio player */
+#custom_audio_player {
+  padding-top: 40px;
+  color: white;
+  background-color: var(--player-background-color);
+  font-family: var(--playlist-font-family);
+}
+.player-controls {
+  padding-left: 15px;
+  padding-right: 25px;
+  transition: all 0.5s ease-in-out;
+}
+.custom-audio-player, #playlist {
+  width: 100%;
+}
+.player-controls, .range {
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+.play-songs {
+  display: flex;
+  align-items: center;
+}
+.volume-controls {
+  display: flex;
+  align-items: center;
+  width: 90%;
+}
+.player-controls .volume-controls button {
+  margin-right: 20px;
+  border: 0;
+  filter: brightness(1.5);
+  font-size: calc(12px + 0.5vw);
+  background-color: var(--mute-button-bg-color);
+}
+.volume-range {
+  width: 100%;
+}
+.player-controls, .now-playing {
+  text-align: center;
+}
+#currentTime, .seperator, #duration {
+  font-size: 10px;
+}
+.seperator {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+/* Now playing song title and artists */
+.now-playing {
+  margin-bottom: 30px;
+  color: var(--top-title-color);
+}
+#song_title {
+  font-size: calc(16px + 0.5vw);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+#song_artist {
+  font-size: calc(10px + 0.5vw);
+  letter-spacing: 1px;
+}
+/* Styling for buttons */
+.player-controls button {
+  background: var(--controls-button-bg-color);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 60px;
+  color: var(--controls-button-text-color);
+  font-size: calc(12px + 0.5vw);
+  margin: 0;
+  cursor: pointer;
+  border-color: #d4f1f4;
+  border-width: 0.5px;
+  transition: all 0.5s ease-in-out;
+}
+@media only screen and (max-width: 768px) {
+  .player-controls button {
+    width: 45px;
+  }
+}
+.player-controls button:hover {
+  background: var(--controls-button-bg-hover-color);
+}
+/* NOTE: Mute Button toggle & colors handled in JS  */
+#loopBtn.active {
+
+}
+/* Styling for range input */
+.range {
+  display: flex;
+  align-items: center;
+  width: 95%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+input[type="range"] {
+  width: 100%;
+  margin: 0 10px;
+}
+.range {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+/* Styling for current time and duration display */
+#currentTime, #duration {
+  font-size: 14px;
+}
+/* Styling for audio list */
+@media only screen and (max-width: 768px) {
+  /* CSS styles for small devices */
+  /* Create breakpoints needed for your layout  */
+}
+/* Playlist styles */
+.playlist-container {
+  width: 100%;
+  position: relative;
+  height: calc(var(--playlist-height) * 3);
+  overflow: hidden;
+}
+#playlist {
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  overflow-y: scroll;
+  font-family: var(--playlist-font-family);
+  font-weight: 400;
+  /* playlist height 3 times list height for scrolling */
+  height: calc(var(--playlist-height) * 5);
+  transition: all 0.5s ease-in-out;
+}
+#playlist li {
+  cursor: pointer;
+  background-color: var(--playlist-bg);
+  border-top: 0.5px rgba(255, 255, 255, 0.5) solid;
+  transition: background-color 0.3s ease; /* Removed transform transition */
+  font-family: var(--playlist-font-family);
+  color: var(--playlist-text-color);
+  height: var(--playlist-height);
+  font-size: calc(12px + 0.05vw);
+  letter-spacing: 1px;
+  text-transform: lowercase;
+}
+@media (max-width: 800px) {
+
+}
+#playlist li .song-title, #playlist li .song-artist {
+  margin: 0;
+  line-height: 1;
+  padding-left: 25px;
+  font-weight: 400px;
+  font-family: verdana;
+}
+#playlist li {
+  display: grid;
+  align-content: center;
+  padding-left: 25px;
+  height: var(--playlist-height);
+}
+#playlist li:hover {
+  background-color: var(--playlist-bg-hover);
+}
+#playlist li.active {
+  background-color: var(--playlist-bg-active);
+}
+/* Scrollbar for playlist  */
+#playlist::-webkit-scrollbar {
+  width: 5px; /* Set the width of the scrollbar */
+}
+/* Track (the area on which the thumb of the scrollbar moves) */
+#playlist::-webkit-scrollbar-track {
+  background: black; /* Set the color of the scrollbar track */
+}
+/* Handle (the draggable part of the scrollbar) */
+#playlist::-webkit-scrollbar-thumb {
+  background: #7393b3; /* Set the color of the scrollbar thumb */
+}
+/* Handle on hover */
+#playlist::-webkit-scrollbar-thumb:hover {
+  background: #0077b6; /* Set the color of the scrollbar thumb on hover */
+}
+/* demo styling for article */
+article {
+  margin-top: 65px;
+  font-size: calc(15px + 0.25vw);
+  opacity: 0.85;
+  letter-spacing: 1px;
+  line-height: 1.25;
+  padding-bottom: 40vh;
+}
+article h2, article h3 {
+  margin: 0;
+  color: #0D344E;
+}
+article a {
+  color: red;
+  font-size: 150%;
+  text-decoration: none;
+}
+article a:hover {
+  text-decoration: underline;
+}
+.description {
+  list-style: none; /* Remove default numbering */
+  padding: 0; /* Remove default padding */
+  margin: 0;
+}
+.description li {
+  margin-bottomx: 20px; /* Add spacing between list items */
+  padding-top: 20px;
+}
+.description strong {
+  font-weight: bold; /* Make function names bold */
+  color: #0D344E;
+}
+body {
+  padding-top: 50px;
+}
