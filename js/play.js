@@ -51,7 +51,7 @@ function setupPlayer(channelData) {
     "displaydescription": true,
     "autostart": false,
     "mute": false,
-    "image": "/assets/img/play-cover.jpg",
+    "image": channelData.poster,
     "title": channelData.name,
     "description": channelData.description,
 

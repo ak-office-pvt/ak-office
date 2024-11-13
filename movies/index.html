@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/channel.css" />
   <link rel="stylesheet" type="text/css" href="/css/wrapper.css" />
   <script src="/login/protection.js"></script>
   <link rel="stylesheet" type="text/css" href="/css/style.css" />
@@ -29,7 +30,6 @@
 
 
   <!----------------------  My Header  ---------------------->
-
 
 
   <div class="header">
@@ -64,42 +64,24 @@
 
 
 
-  <title> Books </title>
+  <title> Movies </title>
+  
+  <div class="no-items search" id="search_top" name="Search (Top)"></div><input class="fin"
+    placeholder="Search Here..." type="text"><br>
+  
+  <h5 class="header3" style="text-align: center;"><b> Movies </b><i class="fa fa-caret"
+      style="margin-bottom:13px;color:#999"></i>
+  </h5><br>
+
+
+  <center>
+    <div id="video-container"></div>
+  </center>
+  <script src="/js/video.js"></script>
 
 
 
-
-
-  <h5 class="header3" style="text-align: left;"><b> Books </b><i class="fa fa-caret-down"
-      style="float:right;margin-bottom:10px;color:#999"></i></h5>
-
-
-  <div class="container">
-    <div id="list" class="row">
-
-
-      <div class="mb-4 col-6 col-md-3"><a href="Bhagat-Singh/Mai-Nastik-Kyu-Hu/">
-          <div class="cursor-pointer card">
-            <div class="text-center card-body"><img src="https://m.media-amazon.com/images/I/41TolhOBZvL._AC_UF1000,1000_QL80_FMwebp_.jpg"
-                style="width:100px;height:150px;object-fit:cover" class=" text-center mb-2 card-img">
-              <h6 class="mb-0 text-full"><b> मैं नास्तिक क्यों हूं </b>
-            </div>
-          </div>
-      </div></a>
-
-      
-      <div class="mb-4 col-6 col-md-3"><a href="Osho/Sambhog-Se-Samadhi-Ki-Oar/">
-          <div class="cursor-pointer card">
-            <div class="text-center card-body"><img src="https://5.imimg.com/data5/ECOM/Default/2024/1/378859682/OF/GV/SS/186940191/61gquxpxu3s-sl1360-500x500.jpg"
-                style="width:100px;height:150px;object-fit:cover" class=" text-center mb-2 card-img">
-              <h6 class="mb-0 text-full"><b> Sambhog Se Samadhi Ki Oar </b>
-            </div>
-          </div>
-      </div></a>
-
-
-    </div>
-  </div>
+  <script src="/js/channel/search.js"></script>
 
 
     
@@ -114,13 +96,5 @@
   </center>
   </h2> <br>
 
-  <center>
-    <script type="text/javascript" src="//widget.supercounters.com/ssl/online_i.js"></script>
-    <script type="text/javascript">sc_online_i(1689631, "ffffff", "303030");</script><br></br>
-  </center>
-
-  <br><br>
-
-</body>
-
-</html>
+  </body>
+  </html>
