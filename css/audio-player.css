@@ -100,7 +100,7 @@ li {
 }
 #song_title {
   font-size: calc(16px + 0.5vw);
-  text-transform: uppercase;
+  text-transform: normal;
   letter-spacing: 1px;
 }
 #song_artist {
@@ -175,7 +175,7 @@ input[type="range"] {
   font-family: var(--playlist-font-family);
   font-weight: 400;
   /* playlist height 3 times list height for scrolling */
-  height: calc(var(--playlist-height) * 5);
+  height: calc(var(--playlist-height) * );
   transition: all 0.5s ease-in-out;
 }
 #playlist li {
@@ -188,13 +188,13 @@ input[type="range"] {
   height: var(--playlist-height);
   font-size: calc(12px + 0.05vw);
   letter-spacing: 1px;
-  text-transform: lowercase;
+  text-transform: normal;
 }
 @media (max-width: 800px) {
 
 }
 #playlist li .song-title, #playlist li .song-artist {
-  margin: 0;
+  margin: 4;
   line-height: 1;
   padding-left: 25px;
   font-weight: 400px;
