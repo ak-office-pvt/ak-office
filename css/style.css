@@ -9048,17 +9048,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Mulish', sans-serif !important;
   color: #ffffff !important;
 }
-h5.header3 {
-  font-family: 'Mulish', sans-serif !important;
-  font-size: 24px !important;
-  color: #ffffff !important;
-  text-align: left;
-}
-h5.header3 i.fa-caret-down {
-  float: right;
-  margin-bottom: 10px;
-  color: #999 !important;
-}
+
 .nav__links a {
   font-family: 'Mulish', sans-serif !important;
   font-size: 16px !important;
