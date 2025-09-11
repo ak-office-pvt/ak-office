@@ -1,4 +1,5 @@
 function createHeader() {
+    console.log("Loading header content..."); // Debug: Check if header is loading
     const headerHTML = `
         <div class="header">
             <header class="header navbar-wapmash">
@@ -39,7 +40,7 @@ function createHeader() {
     const headerElement = document.createElement('div');
     headerElement.innerHTML = headerHTML;
     document.body.insertBefore(headerElement, document.body.firstChild);
+    console.log("Header content loaded successfully.");
 }
 
-// Call the function when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', createHeader);
