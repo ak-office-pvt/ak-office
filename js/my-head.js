@@ -1,5 +1,5 @@
+// Function to append head content without overwriting
 function createHead() {
-    console.log("Loading head content..."); // Debug: Check if head is loading
     const headHTML = `
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,10 +18,18 @@ function createHead() {
         <script src="/js/click-heart.js"></script>
         <script src="/js/menu/list.js"></script>
     `;
-    
-    const headElement = document.head;
-    headElement.innerHTML = headHTML;
-    console.log("Head content loaded successfully.");
+
+    // Create a temporary div to parse the HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = headHTML;
+
+    // Append each child to <head>
+    while (tempDiv.firstChild) {
+        document.head.appendChild(tempDiv.firstChild);
+    }
+
+    console.log("Head content appended successfully."); // Debug: Check in console
 }
 
+// Call on DOM loaded
 document.addEventListener('DOMContentLoaded', createHead);
