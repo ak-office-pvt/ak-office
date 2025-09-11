@@ -40,18 +40,6 @@ function createHeader() {
     const headerElement = document.createElement('div');
     headerElement.innerHTML = headerHTML;
     document.body.insertBefore(headerElement, document.body.firstChild);
-
-    // Add menu toggle functionality
-    const btnNav = document.getElementById('btnNav');
-    const nav = headerElement.querySelector('.nav');
-    const navOverlay = headerElement.querySelector('.nav__overlay');
-
-    btnNav.addEventListener('click', () => {
-        nav.classList.toggle('nav--open');
-        navOverlay.classList.toggle('nav--open');
-        console.log("Menu toggle clicked, nav--open class toggled"); // Debug
-    });
-
     console.log("Header content loaded successfully.");
 }
 
