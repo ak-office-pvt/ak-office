@@ -9040,36 +9040,3 @@ a.text-dark:focus {
 
 
 
-
-/* css/style.css */
-
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Mulish', sans-serif !important;
-  color: #ffffff !important;
-}
-
-.nav__links a {
-  font-family: 'Mulish', sans-serif !important;
-  font-size: 16px !important;
-  color: #cccccc !important;
-  text-decoration: none;
-}
-.nav__links a:hover {
-  color: #ffffff !important;
-}
-.nav__title {
-  font-family: 'Mulish', sans-serif !important;
-  font-size: 18px !important;
-  color: #ffffff !important;
-}
-.search-hint {
-  font-family: 'Mulish', sans-serif !important;
-  color: #5b5b5b !important;
-  font-size: 13px !important;
-  padding: 0 8px 8px 12px;
-}
-.footer-author a {
-  font-family: 'Mulish', sans-serif !important;
-  color: #ffff00 !important;
-}
