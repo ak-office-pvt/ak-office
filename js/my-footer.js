@@ -1,10 +1,11 @@
 function createFooter() {
+    console.log("Loading footer content..."); // Debug: Check if footer is loading
     const footerHTML = `
         <center>
             <h2>
                 <div class="header3"></div>
                 <b>Made by <a href="/link/ak.html" target="_blank">
-                    <font color="yellow">Avdhesh Kushwah</font>
+                    <span style="color: yellow">Avdhesh Kushwah</span>
                 </a></b>
             </h2>
             <br>
@@ -17,7 +18,7 @@ function createFooter() {
     const footerElement = document.createElement('footer');
     footerElement.innerHTML = footerHTML;
     document.body.appendChild(footerElement);
+    console.log("Footer content loaded successfully.");
 }
 
-// Call the function when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', createFooter);
