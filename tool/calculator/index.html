@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <meta name="theme-color" content="#161616">  
+  <title>Calculator</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    .iframe-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .iframe-container iframe {
+      position: absolute;
+      top: -60px; /* Crop header for desktop */
+      left: 0;
+      width: 100%;
+      height: calc(100% + 120px); /* Compensate for desktop crop */
+      border: none;
+      overflow: hidden;
+    }
+    @media screen and (max-width: 768px) {
+      .iframe-container iframe {
+        top: -40px; /* Crop header for mobile */
+        height: calc(100% + 80px); /* Compensate for mobile crop */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="iframe-container">
+    <iframe src="https://www.calculator.net" 
+            scrolling="yes" 
+            gesture="media" 
+            allow="encrypted-media" 
+            allowfullscreen="yes"
+            style="overflow:hidden;"></iframe>
+  </div>
+</body>
+</html>
