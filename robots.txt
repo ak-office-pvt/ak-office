@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ak-official.pages.dev/sitemap.xml
