@@ -1,19 +1,16 @@
 baseurl: ""
 url: "https://ak-official.pages.dev"
 
-title: "Avdhesh Kushwah Official "
+title: "Avdhesh Kushwah Official"
 description: "Avdhesh Kushwah, Avdhesh Kushwah Gwalior, Avdhesh Kushwah Gadroli, Avdhesh Kushwah Official Website, Avdhesh Kushwah Photos & Videos."
 og_image: "/assets/img/ak-logo.png"
 
-sitemap:
-  file: "/sitemap.xml"  # Default hi hai
-  exclude:  # Agar Koi Page Hide Karna Ho
-    - "/secret-page/"
-    
 plugins:
   - jekyll-sitemap
-  
+
 include:
   - books
   - my-gallery
   - movies
+  - tool
+  - link
