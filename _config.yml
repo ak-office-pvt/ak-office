@@ -1,10 +1,6 @@
-plugins:
-  - jekyll-sitemap
-  
 baseurl: ""
 url: "https://ak-official.pages.dev"
 
-# Default metadata (fallbacks)
 title: "Avdhesh Kushwah Official "
 description: "Avdhesh Kushwah, Avdhesh Kushwah Gwalior, Avdhesh Kushwah Gadroli, Avdhesh Kushwah Official Website, Avdhesh Kushwah Photos & Videos."
 og_image: "/assets/img/ak-logo.png"
@@ -14,9 +10,10 @@ sitemap:
   exclude:  # Agar Koi Page Hide Karna Ho
     - "/secret-page/"
     
+plugins:
+  - jekyll-sitemap
+  
 include:
   - books
   - my-gallery
-  - tool
   - movies
-  - link
