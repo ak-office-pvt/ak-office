@@ -13,3 +13,10 @@ sitemap:
   file: "/sitemap.xml"  # Default hi hai
   exclude:  # Agar Koi Page Hide Karna Ho
     - "/secret-page/"
+    
+include:
+  - books
+  - my-gallery
+  - tool
+  - movies
+  - link
