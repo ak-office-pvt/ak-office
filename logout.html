@@ -1,18 +1,23 @@
 ---
 layout: default
 title: My Account
-og_image: /assets/img/preview-img.jpg
-# Recommended resolution for og_image: 1200x630 pixels, PNG/JPEG
+permalink: /logout
 ---
 
 
-<!----------- MAIN CONTENT ----------->
+          <script src="/login/protection.js"></script>                     
+          <link rel="stylesheet" href="/login/style.css">
 
 
-<h5 class="header3" style="text-align: center;"><b> My Account </b><i class="fa fa-caret-down"
-      style="float:right;margin-bottom:10px;color:#999"></i></h5> <br>
+
+ <!---------------------- MAIN CONTENT  ---------------------->
 
 
+  
+
+<br>
+
+<body>
   <script>
     // Function to save user details locally
     function saveDetails() {
@@ -143,25 +148,25 @@ og_image: /assets/img/preview-img.jpg
     }
 
     .button {
-      font-size: 8px;
+      font-size: 10px;
       display: inline-block;
       padding: 0.3rem 1rem;
       background-color: #0060cf;
       color: white;
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 1.3rem;
       border-radius: 15px;
       transition: background-color 0.3s ease;
     }
 
     .button:hover {
-      background-color: black;
+      background-color: yellow;
     }
 
     .logout-button {
       background-color: #858585;
       color: white;
-      padding: 10px 20px;
+      padding: 10px 40px;
       border: none;
       border-radius: 50px;
       cursor: pointer;
@@ -182,8 +187,8 @@ og_image: /assets/img/preview-img.jpg
   </style>
   </head>
 
-
-<center>Login Successfully ✅</center>
+  <body>
+<center><b>Login Successfully ✅</b></center>
     <div class="text-container">
 
  <!---     <div id="profile"> </div>  --->
@@ -197,7 +202,7 @@ og_image: /assets/img/preview-img.jpg
       <br>
       <a href="javascript:history.back()" class="button"> Go Back </a>
       <br>
-      <a href="/index.html" class="button"> Home Page </a>
+      <a href="/index.html" class="button"> My Courses </a>
       <br>
       <button class="logout-button" onclick="logout ()">Logout</button>
       <div id="content"></div>
@@ -210,3 +215,4 @@ og_image: /assets/img/preview-img.jpg
 
 
 
+  <br>
