@@ -11,7 +11,7 @@
       var password = document.getElementById("password").value;
 
       // Check if the username and password are correct
-      if (password === "aklive") {
+      if (password === "ak@admin") {
         // Set the "loggedIn" key in local storage
         localStorage.setItem("loggedIn", "true");
 
