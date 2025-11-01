@@ -12,7 +12,7 @@ permalink: /search/
       <input type="text" id="search-input" class="form-control form-control-lg mb-3" 
              placeholder="Search books, gallery, movies..." autocomplete="off">
       
-      <div id="search-status" class="mb-3 text-center"></div>
+      <div id="search-status" class="mb-3 text-center text-success"></div>
       <div id="search-results"></div>
     </div>
   </div>
@@ -22,60 +22,57 @@ permalink: /search/
 <script src="https://unpkg.com/lunr/lunr.js"></script>
 
 <script>
-  const statusEl = document.getElementById('search-status');
+// Auto-generated search data from Jekyll
+const searchData = [
+  {% for page in site.html_pages %}
+  {
+    "url": "{{ page.url | relative_url }}",
+    "title": {{ page.title | default: page.name | remove: '.html' | replace: '-', ' ' | capitalize | jsonify }},
+    "body": {{ page.content | strip_html | truncate: 200 | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+];
+
+// Build index
+const idx = lunr(function () {
+  this.ref('url');
+  this.field('title');
+  this.field('body');
+  searchData.forEach(doc => this.add(doc));
+});
+
+document.getElementById('search-status').innerHTML = `Ready! ${searchData.length} pages indexed.`;
+
+document.getElementById('search-input').addEventListener('input', function() {
+  const query = this.value.trim();
   const resultsEl = document.getElementById('search-results');
-  let idx, documents = [];
-
-  // Load search index
-  fetch('/search-index.json?' + Date.now()) // Cache bust
-    .then(r => {
-      if (!r.ok) throw new Error(`HTTP ${r.status}: search-index.json not found`);
-      return r.json();
-    })
-    .then(data => {
-      documents = data;
-      idx = lunr(function() {
-        this.ref('url');
-        this.field('title');
-        this.field('body');
-        data.forEach(d => this.add(d));
-      });
-      statusEl.innerHTML = `<span class="text-success">Ready! ${data.length} pages indexed.</span>`;
-      document.getElementById('search-input').addEventListener('input', search);
-    })
-    .catch(err => {
-      statusEl.innerHTML = `<span class="text-danger">Error: ${err.message}</span>`;
-      console.error('Search failed:', err);
-    });
-
-  function search() {
-    const query = document.getElementById('search-input').value.trim();
-    if (!query || !idx) {
-      resultsEl.innerHTML = '';
-      return;
-    }
-
-    const results = idx.search(query + '*');
-    if (results.length === 0) {
-      resultsEl.innerHTML = `<p class="text-muted text-center">No results for "<strong>${query}</strong>"</p>`;
-      return;
-    }
-
-    resultsEl.innerHTML = results.map(res => {
-      const doc = documents.find(d => d.url === res.ref);
-      return `
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">
-              <a href="${doc.url}" class="text-primary">${doc.title}</a>
-            </h5>
-            <p class="text-muted small mb-1">${doc.url}</p>
-            <p class="text-secondary">${doc.body}</p>
-          </div>
-        </div>
-      `;
-    }).join('');
+  
+  if (!query) {
+    resultsEl.innerHTML = '';
+    return;
   }
+
+  const results = idx.search(query + '*');
+  if (results.length === 0) {
+    resultsEl.innerHTML = `<p class="text-muted text-center">No results for "<strong>${query}</strong>"</p>`;
+    return;
+  }
+
+  resultsEl.innerHTML = results.map(res => {
+    const doc = searchData.find(d => d.url === res.ref);
+    return `
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="${doc.url}" class="text-primary">${doc.title}</a>
+          </h5>
+          <p class="text-muted small mb-1">${doc.url}</p>
+          <p class="text-secondary">${doc.body}</p>
+        </div>
+      </div>
+    `;
+  }).join('');
+});
 </script>
 
 <style>
