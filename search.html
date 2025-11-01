@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Search - Avdhesh Kushwah Official
+title: Search - Avdhesh Kushwah
 permalink: /search/
 ---
 
@@ -22,7 +22,11 @@ permalink: /search/
       </div>
       
       <div id="search-status" class="text-center mb-4"></div>
-      <div id="search-results" class="row"></div>
+
+      <!-- HORIZONTAL SCROLL CONTAINER -->
+      <div class="horizontal-scroll-container">
+        <div id="search-results" class="d-flex flex-nowrap"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -63,48 +67,44 @@ document.getElementById('search-input').addEventListener('input', function() {
 
   const res = idx.search(q + '*');
   if (res.length === 0) {
-    el.innerHTML = `<div class="col-12 text-center"><p class="text-muted">No results for "<strong style='color:#FFD700'>${q}</strong>"</p></div>`;
+  el.innerHTML = `<div class="text-center w-100 p-5"><p class="text-muted">No results for "<strong style='color:#FFD700'>${q}</strong>"</p></div>`;
     return;
   }
 
   el.innerHTML = res.map(r => {
     const d = searchData.find(x => x.url === r.ref);
     
-    // Limit title to 6-7 words
+    // Title: 6-7 words
     const titleWords = d.title.split(' ').slice(0, 7).join(' ');
     const shortTitle = d.title.split(' ').length > 7 ? titleWords + '...' : titleWords;
     
-    // Limit description to 10-11 words
+    // Desc: 10-11 words
     const descWords = (d.desc || 'No description available.').split(' ').slice(0, 11).join(' ');
     const shortDesc = (d.desc || 'No description available.').split(' ').length > 11 ? descWords + '...' : descWords;
 
     return `
-      <div class="col-md-6 col-lg-4 mb-4">
+      <div class="search-card mx-2 flex-shrink-0" style="width: 280px;">
         <div class="card bg-dark text-white h-100" style="border-radius: 18px; overflow: hidden; border: 1px solid #000; transition: all 0.3s;">
           
           <!-- OG Image -->
-          <img src="${d.image}" class="card-img-top" alt="${d.title}" style="height: 160px; object-fit: cover; border-bottom: 1px solid #000;">
+          <img src="${d.image}" class="card-img-top" alt="${d.title}" style="height: 140px; object-fit: cover; border-bottom: 1px solid #000;">
           
           <!-- Body -->
           <div class="card-body d-flex flex-column p-3">
-            <!-- Title (White → Hover Yellow) -->
-            <h5 class="card-title mb-2 text-white title-hover" style="font-family: 'Mulish', sans-serif; font-weight: 700; font-size: 1rem;">
+            <h5 class="card-title mb-2 text-white title-hover" style="font-family: 'Mulish', sans-serif; font-weight: 700; font-size: 0.95rem;">
               <a href="${d.url}" class="text-decoration-none stretched-link">${shortTitle}</a>
             </h5>
             
-            <!-- URL -->
             <p class="text-muted small mb-1 url-hover">
               <i class="fa fa-link"></i> ${d.url}
             </p>
             
-            <!-- Description (10-11 words) -->
-            <p class="text-light small mb-3" style="font-style: italic; line-height: 1.4; font-size: 0.9rem;">
+            <p class="text-light small mb-3" style="font-style: italic; line-height: 1.4; font-size: 0.85rem;">
               ${shortDesc}
             </p>
             
-            <!-- View Button -->
             <a href="${d.url}" class="btn btn-sm mt-auto align-self-start" style="background: #FFD700; color: #000; font-weight: 600;">
-              <i class="fa fa-arrow-right"></i> View Page
+              <i class="fa fa-arrow-right"></i> View
             </a>
           </div>
         </div>
@@ -115,22 +115,49 @@ document.getElementById('search-input').addEventListener('input', function() {
 </script>
 
 <style>
-  /* Tere Site Theme Ke Hisaab Se */
+  /* Tere Site Theme */
   body { 
     background: #161616; 
     color: #fff; 
     font-family: 'Mulish', sans-serif;
   }
-  
-  .card {
-    transition: all 0.3s ease;
+
+  /* Horizontal Scroll Container */
+  .horizontal-scroll-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 0;
+    margin: 0 -15px;
+  }
+  .horizontal-scroll-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  .horizontal-scroll-container::-webkit-scrollbar-track {
+    background: #222;
+    border-radius: 3px;
+  }
+  .horizontal-scroll-container::-webkit-scrollbar-thumb {
+    background: #FFD700;
+    border-radius: 3px;
+  }
+
+  /* Card Hover */
+  .search-card {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+  .search-card:hover {
+    transform: translateY(-6px);
+  }
+  .search-card .card {
     border: 1px solid #000 !important;
   }
-  .card:hover {
-    transform: translateY(-6px);
+  .search-card .card:hover {
     border-color: #FFD700 !important;
   }
-  
+
   /* Search Input */
   .input-group .form-control {
     background: #222 !important;
@@ -141,15 +168,13 @@ document.getElementById('search-input').addEventListener('input', function() {
     border-color: #FFD700;
     box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
   }
-  
-  /* URL Hover */
+
+  /* Hover Effects */
   .url-hover { color: #aaa; transition: color 0.3s; }
   .url-hover:hover { color: #FFD700; }
-  
-  /* Title Hover */
   .title-hover a { color: #fff !important; transition: color 0.3s; }
   .title-hover a:hover { color: #FFD700 !important; }
-  
+
   /* Button */
   .btn { background: #FFD700; color: #000 !important; font-weight: 600; }
   .btn:hover { background: #e6c200; }
