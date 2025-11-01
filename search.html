@@ -7,7 +7,7 @@ permalink: /search/
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-10 col-lg-8">
-      <h1 class="text-center mb-5 text-white" style="font-family: 'Mulish', sans-serif; font-weight: 700;">Site Search</h1>
+<h5 class="header3" style="text-align: center;"><b> Site Search </b> </h5>
       
       <!-- Search Bar with Border -->
       <div class="search-box-wrapper mb-5">
@@ -75,12 +75,12 @@ document.getElementById('search-input').addEventListener('input', function() {
     const d = searchData.find(x => x.url === r.ref);
     
     // Title: 6-7 words
-    const titleWords = d.title.split(' ').slice(0, 7).join(' ');
-    const shortTitle = d.title.split(' ').length > 7 ? titleWords + '...' : titleWords;
+    const titleWords = d.title.split(' ').slice(0, 10).join(' ');
+    const shortTitle = d.title.split(' ').length > 10 ? titleWords + '...' : titleWords;
     
     // Desc: 10-11 words
-    const descWords = (d.desc || 'No description available.').split(' ').slice(0, 11).join(' ');
-    const shortDesc = (d.desc || 'No description available.').split(' ').length > 11 ? descWords + '...' : descWords;
+    const descWords = (d.desc || 'No description available.').split(' ').slice(0, 15).join(' ');
+    const shortDesc = (d.desc || 'No description available.').split(' ').length > 15 ? descWords + '...' : descWords;
 
     return `
       <div class="col-12 mb-4">
