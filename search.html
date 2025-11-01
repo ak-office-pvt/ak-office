@@ -18,56 +18,60 @@ permalink: /search/
   </div>
 </div>
 
-<!-- Lunr.js -->
 <script src="https://unpkg.com/lunr/lunr.js"></script>
 
 <script>
-// Auto-generated search data from Jekyll
+// AUTO SCAN ALL .html FILES (DEEP FOLDERS TOO)
 const searchData = [
-  {% for page in site.html_pages %}
+  {% assign html_files = site.html_files | where_exp: "file", "file.path != 'search.html'" %}
+  {% for file in html_files %}
   {
-    "url": "{{ page.url | relative_url }}",
-    "title": {{ page.title | default: page.name | remove: '.html' | replace: '-', ' ' | capitalize | jsonify }},
-    "body": {{ page.content | strip_html | truncate: 200 | jsonify }}
+    "url": "{{ file.url | relative_url }}",
+    "title": "{{ file.title | default: file.name | remove: '.html' | replace: '-', ' ' | replace: '_', ' ' | split: '/' | last | capitalize }}",
+    "body": {{ file.content | strip_html | truncate: 200 | jsonify }}
   }{% unless forloop.last %},{% endunless %}
   {% endfor %}
 ];
 
-// Build index
-const idx = lunr(function () {
-  this.ref('url');
-  this.field('title');
-  this.field('body');
-  searchData.forEach(doc => this.add(doc));
-});
+// Debug
+console.log('Found HTML files:', {{ site.html_files.size }});
+console.log('Search data:', searchData);
 
-document.getElementById('search-status').innerHTML = `Ready! ${searchData.length} pages indexed.`;
+let idx;
+if (searchData.length > 0) {
+  idx = lunr(function () {
+    this.ref('url');
+    this.field('title');
+    this.field('body');
+    searchData.forEach(d => this.add(d));
+  });
+  document.getElementById('search-status').innerHTML = 
+    `<span class="text-success">Ready! ${searchData.length} pages indexed.</span>`;
+} else {
+  document.getElementById('search-status').innerHTML = 
+    `<span class="text-danger">No .html files found! Check include paths.</span>`;
+}
 
+// Search
 document.getElementById('search-input').addEventListener('input', function() {
-  const query = this.value.trim();
-  const resultsEl = document.getElementById('search-results');
-  
-  if (!query) {
-    resultsEl.innerHTML = '';
+  const q = this.value.trim();
+  const el = document.getElementById('search-results');
+  if (!q || !idx) { el.innerHTML = ''; return; }
+
+  const res = idx.search(q + '*');
+  if (res.length === 0) {
+    el.innerHTML = `<p class="text-muted text-center">No results for "<strong>${q}</strong>"</p>`;
     return;
   }
 
-  const results = idx.search(query + '*');
-  if (results.length === 0) {
-    resultsEl.innerHTML = `<p class="text-muted text-center">No results for "<strong>${query}</strong>"</p>`;
-    return;
-  }
-
-  resultsEl.innerHTML = results.map(res => {
-    const doc = searchData.find(d => d.url === res.ref);
+  el.innerHTML = res.map(r => {
+    const d = searchData.find(x => x.url === r.ref);
     return `
       <div class="card mb-3">
         <div class="card-body">
-          <h5 class="card-title">
-            <a href="${doc.url}" class="text-primary">${doc.title}</a>
-          </h5>
-          <p class="text-muted small mb-1">${doc.url}</p>
-          <p class="text-secondary">${doc.body}</p>
+          <h5><a href="${d.url}" class="text-primary">${d.title}</a></h5>
+          <p class="text-muted small">${d.url}</p>
+          <p class="text-secondary">${d.body}</p>
         </div>
       </div>
     `;
@@ -76,7 +80,5 @@ document.getElementById('search-input').addEventListener('input', function() {
 </script>
 
 <style>
-  .card { transition: 0.2s; }
-  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 </style>
-
