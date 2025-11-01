@@ -6,14 +6,14 @@ permalink: /search/
 
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-8">
-      <h1 class="text-center mb-4">Site Search</h1>
+    <div class="col-md-10">
+      <h1 class="text-center mb-4 text-white">Site Search</h1>
       
-      <input type="text" id="search-input" class="form-control form-control-lg mb-3" 
-             placeholder="Search books, gallery, movies..." autocomplete="off">
+      <input type="text" id="search-input" class="form-control form-control-lg mb-4 bg-dark text-white border-warning" 
+             placeholder="Search books, gallery, movies..." autocomplete="off" style="border-radius: 50px;">
       
-      <div id="search-status" class="mb-3 text-center text-success"></div>
-      <div id="search-results" class="row g-3"></div>
+      <div id="search-status" class="mb-4 text-center"></div>
+      <div id="search-results" class="row g-4"></div>
     </div>
   </div>
 </div>
@@ -21,21 +21,20 @@ permalink: /search/
 <script src="https://unpkg.com/lunr/lunr.js"></script>
 
 <script>
-// AUTO SCAN ALL .html FILES
+// AUTO SCAN ALL PAGES
 const searchData = [
   {% for page in site.pages %}
     {% if page.path contains '.html' and page.path != 'search.html' %}
     {
       "url": "{{ page.url | relative_url }}",
       "title": "{{ page.title | default: page.name | remove: '.html' | replace: '-', ' ' | replace: '_', ' ' | split: '/' | last | capitalize }}",
-      "body": {{ page.content | strip_html | truncate: 200 | jsonify }},
-      "image": "{{ page.og_image | default: page.image | default: site.og_image | default: '/assets/img/ak-logo.png' }}"
+      "body": {{ page.content | strip_html | jsonify }},
+      "image": "{{ page.og_image | default: page.image | default: site.og_image | default: '/assets/img/ak-logo.png' }}",
+      "icon": "{{ page.icon | default: 'book' }}"
     }{% unless forloop.last %},{% endunless %}
     {% endif %}
   {% endfor %}
 ];
-
-console.log('Indexed pages:', searchData.length);
 
 let idx;
 if (searchData.length > 0) {
@@ -46,7 +45,7 @@ if (searchData.length > 0) {
     searchData.forEach(d => this.add(d));
   });
   document.getElementById('search-status').innerHTML = 
-    `<span class="text-success">Ready! ${searchData.length} pages indexed.</span>`;
+    `<span class="text-success fw-bold">Ready! ${searchData.length} pages indexed.</span>`;
 } else {
   document.getElementById('search-status').innerHTML = 
     `<span class="text-danger">No pages found.</span>`;
@@ -59,22 +58,31 @@ document.getElementById('search-input').addEventListener('input', function() {
 
   const res = idx.search(q + '*');
   if (res.length === 0) {
-    el.innerHTML = `<div class="col-12"><p class="text-muted text-center">No results for "<strong>${q}</strong>"</p></div>`;
+    el.innerHTML = `<div class="col-12 text-center"><p class="text-muted">No results for "<strong class="text-warning">${q}</strong>"</p></div>`;
     return;
   }
 
   el.innerHTML = res.map(r => {
     const d = searchData.find(x => x.url === r.ref);
+    const iconClass = d.icon === 'movie' ? 'fas fa-film' : 
+                      d.icon === 'gallery' ? 'fas fa-images' : 
+                      d.icon === 'book' ? 'fas fa-book' : 'fas fa-folder';
+
     return `
       <div class="col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm border-0">
-          <img src="${d.image}" class="card-img-top" alt="${d.title}" style="height: 180px; object-fit: cover;">
+        <div class="card bg-dark text-white border-0 shadow-lg h-100" style="border-radius: 20px; overflow: hidden;">
+          <div class="card-header bg-gradient text-center py-3" style="background: linear-gradient(135deg, #1e3c72, #2a5298);">
+            <i class="${iconClass} fa-3x text-warning mb-2"></i>
+            <h5 class="mb-0 text-warning fw-bold">${d.title}</h5>
+          </div>
           <div class="card-body d-flex flex-column">
-            <h5 class="card-title mb-2">
-              <a href="${d.url}" class="text-primary text-decoration-none">${d.title}</a>
-            </h5>
-            <p class="text-muted small mb-2 url-hover">${d.url}</p>
-            <p class="text-secondary flex-grow-1 small">${d.body}</p>
+            <p class="text-muted small mb-2 url-hover">
+              <i class="fas fa-link"></i> ${d.url}
+            </p>
+            <p class="text-light flex-grow-1 small lh-lg">${d.body}</p>
+            <a href="${d.url}" class="btn btn-outline-warning btn-sm mt-auto">
+              <i class="fas fa-arrow-right"></i> Open
+            </a>
           </div>
         </div>
       </div>
@@ -83,28 +91,35 @@ document.getElementById('search-input').addEventListener('input', function() {
 });
 </script>
 
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
+  body { background: #121212; color: #fff; }
   .card {
     transition: all 0.3s ease;
-    border-radius: 12px;
-    overflow: hidden;
   }
   .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
-  }
-  .card-img-top {
-    border-bottom: 1px solid #eee;
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(255, 193, 7, 0.3) !important;
   }
   .url-hover {
-    color: #6c757d !important;
-    transition: color 0.2s;
+    color: #adb5bd !important;
+    transition: color 0.3s;
   }
   .url-hover:hover {
-    color: #ffc107 !important; /* Yellow on hover */
+    color: #ffc107 !important;
   }
-  a.text-primary:hover {
-    color: #0d6efd !important;
-    text-decoration: underline !important;
+  .btn-outline-warning {
+    border-color: #ffc107;
+    color: #ffc107;
+  }
+  .btn-outline-warning:hover {
+    background: #ffc107;
+    color: #000;
+  }
+  .form-control:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
   }
 </style>
