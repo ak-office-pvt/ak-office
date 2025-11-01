@@ -11,9 +11,12 @@ plugins:
 include:
   - _plugins
   
+# _config.yml mein yeh pura section replace kar
+
 collections:
   html_pages:
     output: true
+    permalink: /:path/
 
 defaults:
   - scope:
@@ -21,3 +24,13 @@ defaults:
       type: html_pages
     values:
       layout: default
+
+# Yeh bhi add kar (important!)
+# _config.yml mein last mein add kar
+include:
+  - "*.html"
+  - "books/**/*.html"
+  - "my-gallery/**/*.html"
+  - "movies/**/*.html"
+  - "about.html"
+  - "contact.html"
