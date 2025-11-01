@@ -9,12 +9,13 @@ permalink: /search/
     <div class="col-md-10">
       <h1 class="text-center mb-5 text-white fw-bold">Site Search</h1>
       
-      <div class="input-group input-group-lg mb-5">
-        <input type="text" id="search-input" class="form-control bg-dark text-white border-0 rounded-pill shadow-lg" 
-               placeholder="Search books, gallery, movies..." autocomplete="off">
-        <span class="input-group-text bg-warning text-dark border-0 rounded-pill">
+      <!-- Search Bar -->
+      <div class="input-group input-group-lg mb-5 shadow-lg" style="border-radius: 50px; overflow: hidden;">
+        <input type="text" id="search-input" class="form-control bg-dark text-white border-0 ps-4" 
+               placeholder="Search books, gallery, movies..." autocomplete="off" style="height: 60px;">
+        <button class="btn btn-warning text-dark fs-5" style="width: 60px;">
           <i class="fas fa-search"></i>
-        </span>
+        </button>
       </div>
       
       <div id="search-status" class="mb-4 text-center"></div>
@@ -26,7 +27,7 @@ permalink: /search/
 <script src="https://unpkg.com/lunr/lunr.js"></script>
 
 <script>
-// AUTO SCAN ALL PAGES WITH OG IMAGE
+// AUTO SCAN ALL PAGES
 const searchData = [
   {% for page in site.pages %}
     {% if page.path contains '.html' and page.path != 'search.html' %}
@@ -69,32 +70,44 @@ document.getElementById('search-input').addEventListener('input', function() {
 
   el.innerHTML = res.map(r => {
     const d = searchData.find(x => x.url === r.ref);
-    const iconClass = d.icon === 'book' ? 'fas fa-book-open' : 
-                      d.icon === 'movie' ? 'fas fa-film' : 
-                      d.icon === 'gallery' ? 'fas fa-images' : 
-                      'fas fa-folder';
+    
+    // Icon mapping
+    const iconMap = {
+      'book': 'fas fa-book-open',
+      'movie': 'fas fa-film',
+      'gallery': 'fas fa-images',
+      'cricket': 'fas fa-trophy',
+      'folder': 'fas fa-folder'
+    };
+    const iconClass = iconMap[d.icon] || 'fas fa-folder';
 
     return `
       <div class="col-md-6 col-lg-4">
-        <div class="card bg-dark text-white border-0 shadow-sm h-100" style="border-radius: 18px; overflow: hidden; transition: all 0.4s;">
+        <div class="card bg-dark text-white border-0 h-100" style="border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.3); transition: all 0.4s;">
+          
           <!-- OG Image -->
           <div class="position-relative">
-            <img src="${d.image}" class="card-img-top" alt="${d.title}" style="height: 180px; object-fit: cover;">
-            <div class="position-absolute top-0 end-0 p-3">
-              <i class="${iconClass} fa-2x text-warning opacity-75"></i>
+            <img src="${d.image}" class="card-img-top" alt="${d.title}" style="height: 180px; object-fit: cover; filter: brightness(0.9);">
+            <!-- Icon on Image (Center Top) -->
+            <div class="position-absolute top-0 start-50 translate-middle-x mt-3">
+              <div class="bg-dark bg-opacity-75 rounded-circle p-3 shadow">
+                <i class="${iconClass} fa-2x text-warning"></i>
+              </div>
             </div>
           </div>
           
           <!-- Card Body -->
           <div class="card-body d-flex flex-column p-4">
-            <h5 class="card-title mb-3 text-warning fw-bold">
+            <h5 class="card-title mb-3 text-warning fw-bold fs-6">
               <a href="${d.url}" class="text-decoration-none text-warning stretched-link">${d.title}</a>
             </h5>
             <p class="text-muted small mb-2 url-hover">
-              <i class="fas fa-link me-1"></i> ${d.url}
+              <i class="fas fa-link me-1"></i> <span class="text-truncate d-inline-block" style="max-width: 100%;">${d.url}</span>
             </p>
-            <p class="text-light small lh-lg flex-grow-1 mb-3">${d.body}</p>
-            <a href="${d.url}" class="btn btn-outline-warning btn-sm mt-auto w-100">
+            <p class="text-light small lh-lg flex-grow-1 mb-3 overflow-auto" style="max-height: 120px;">
+              ${d.body}
+            </p>
+            <a href="${d.url}" class="btn btn-outline-warning btn-sm mt-auto w-100 fw-bold">
               <i class="fas fa-arrow-right me-1"></i> View Page
             </a>
           </div>
@@ -109,40 +122,43 @@ document.getElementById('search-input').addEventListener('input', function() {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-  /* Classic Professional Dark Theme */
+  /* Ultra Clean Professional Dark Theme */
   body { 
-    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    background: #0a0a0a;
     color: #e9ecef;
-    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
   
   .card {
-    background: #1e1e1e;
+    background: #1a1a1a;
     border: 1px solid #333;
     transition: all 0.4s ease;
   }
   .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(255, 193, 7, 0.2) !important;
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(255, 193, 7, 0.25) !important;
     border-color: #ffc107;
   }
   
+  /* Search Bar */
   .input-group .form-control {
-    background: #2d2d2d !important;
-    border: 2px solid #444;
+    background: #1e1e1e !important;
+    border: none;
     color: #fff !important;
-    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
   }
   .input-group .form-control:focus {
-    border-color: #ffc107;
+    background: #2d2d2d !important;
     box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.3);
   }
-  .input-group-text {
+  .btn-warning {
     background: #ffc107;
+    border: none;
     color: #000;
     font-weight: bold;
   }
   
+  /* URL Hover */
   .url-hover {
     color: #adb5bd !important;
     transition: color 0.3s;
@@ -151,17 +167,28 @@ document.getElementById('search-input').addEventListener('input', function() {
     color: #ffc107 !important;
   }
   
+  /* Button */
   .btn-outline-warning {
     border-color: #ffc107;
     color: #ffc107;
     font-weight: 600;
+    transition: all 0.3s;
   }
   .btn-outline-warning:hover {
     background: #ffc107;
     color: #000;
+    transform: scale(1.05);
   }
   
-  .card-title a:hover {
-    color: #ffdb7a !important;
+  /* Scrollable Body */
+  .overflow-auto::-webkit-scrollbar {
+    width: 4px;
+  }
+  .overflow-auto::-webkit-scrollbar-track {
+    background: #333;
+  }
+  .overflow-auto::-webkit-scrollbar-thumb {
+    background: #ffc107;
+    border-radius: 2px;
   }
 </style>
