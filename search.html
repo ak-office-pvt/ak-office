@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Search - Avdhesh Kushwah
+title: Search - Avdhesh Kushwah Official
 permalink: /search/
 ---
 
@@ -25,7 +25,7 @@ permalink: /search/
       
       <div id="search-status" class="text-center mb-4"></div>
 
-      <!-- VERTICAL RESULTS – EK ROW ME EK HI BOX -->
+      <!-- VERTICAL RESULTS – MOBILE PE BHI LEFT-RIGHT -->
       <div id="search-results" class="row justify-content-center"></div>
     </div>
   </div>
@@ -37,7 +37,7 @@ permalink: /search/
 // AUTO SCAN PAGES + DESCRIPTION
 const searchData = [
   {% for page in site.pages %}
-    {% if page.path contains '.html' and page.path != 'https://avdheshkushwah.pages.dev/search.html' %}
+    {% if page.path contains '.html' and page.path != 'search.html' %}
     {
       "url": "{{ page.url | relative_url }}",
       "title": "{{ page.title | default: page.name | remove: '.html' | replace: '-', ' ' | replace: '_', ' ' | split: '/' | last | capitalize }}",
@@ -83,30 +83,30 @@ document.getElementById('search-input').addEventListener('input', function() {
     const shortDesc = (d.desc || 'No description available.').split(' ').length > 11 ? descWords + '...' : descWords;
 
     return `
-      <div class="col-12 col-md-11 col-lg-10 mb-4">
-        <div class="result-box d-flex flex-column flex-md-row align-items-stretch" 
-             style="background: #1e1e1e; border-radius: 16px; overflow: hidden; border: 1px solid #000; transition: all 0.3s; min-height: 180px;">
+      <div class="col-12 mb-4">
+        <div class="result-box d-flex flex-row align-items-stretch" 
+             style="background: #1e1e1e; border-radius: 16px; overflow: hidden; border: 1px solid #000; transition: all 0.3s; min-height: 160px;">
           
           <!-- LEFT: OG Image -->
-          <div class="flex-shrink-0 position-relative" style="width: 30%; min-width: 160px;">
+          <div class="flex-shrink-0" style="width: 30%; min-width: 120px;">
             <img src="${d.image}" class="w-100 h-100" alt="${d.title}" 
                  style="object-fit: cover; display: block;">
           </div>
           
           <!-- RIGHT: Content -->
-          <div class="p-4 d-flex flex-column" style="width: 70%; background: #2d2d2d;">
+          <div class="p-3 d-flex flex-column flex-grow-1" style="background: #2d2d2d; width: 70%;">
             <!-- Title -->
-            <h5 class="text-white mb-2 title-hover" style="font-family: 'Mulish', sans-serif; font-weight: 700; font-size: 1.25rem; line-height: 1.3;">
+            <h5 class="text-white mb-1 title-hover" style="font-family: 'Mulish', sans-serif; font-weight: 700; font-size: 1rem; line-height: 1.3;">
               <a href="${d.url}" class="text-decoration-none stretched-link">${shortTitle}</a>
             </h5>
             
             <!-- URL -->
-            <p class="text-warning small mb-2 url-hover" style="font-size: 0.9rem;">
+            <p class="text-warning small mb-1 url-hover" style="font-size: 0.8rem;">
               <i class="fa fa-link"></i> ${d.url}
             </p>
             
             <!-- Description -->
-            <p class="text-light small flex-grow-1" style="font-style: italic; line-height: 1.5; font-size: 0.95rem; margin-bottom: 0;">
+            <p class="text-light small flex-grow-1" style="font-style: italic; line-height: 1.4; font-size: 0.85rem; margin-bottom: 0;">
               ${shortDesc}
             </p>
           </div>
@@ -161,14 +161,21 @@ document.getElementById('search-input').addEventListener('input', function() {
   .title-hover a { color: #fff !important; transition: color 0.3s; }
   .title-hover a:hover { color: #FFD700 !important; }
 
-  /* Mobile: Stack */
-  @media (max-width: 767px) {
+  /* MOBILE: SAME AS DESKTOP */
+  @media (max-width: 576px) {
     .result-box {
-      flex-direction: column !important;
+      flex-direction: row !important;
+      min-height: 140px !important;
     }
-    .result-box > div:first-child { width: 100% !important; }
-    .result-box img { height: 150px !important; }
-    .result-box > div:last-child { width: 100% !important; padding: 1rem !important; }
-    .result-box h5 { font-size: 1.1rem !important; }
+    .result-box > div:first-child {
+      width: 35% !important;
+      min-width: 100px !important;
+    }
+    .result-box > div:last-child {
+      width: 65% !important;
+      padding: 0.75rem !important;
+    }
+    .result-box h5 { font-size: 0.95rem !important; }
+    .result-box p { font-size: 0.75rem !important; }
   }
 </style>
