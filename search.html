@@ -5,76 +5,71 @@ permalink: /search/
 ---
 
 <div class="container mt-5">
-  <h1 class="text-center mb-4">🔍 Site Search</h1>
-  
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <input type="text" id="search-input" class="form-control form-control-lg" placeholder="Search books, gallery, movies..." autocomplete="off">
-      <div id="search-results" class="mt-4"></div>
-      <div id="search-status" class="mt-2 text-muted small"></div>
+      <h1 class="text-center mb-4">Site Search</h1>
+      
+      <input type="text" id="search-input" class="form-control form-control-lg mb-3" 
+             placeholder="Search books, gallery, movies..." autocomplete="off">
+      
+      <div id="search-status" class="mb-3 text-center"></div>
+      <div id="search-results"></div>
     </div>
   </div>
 </div>
 
-<!-- Lunr.js CDN -->
+<!-- Lunr.js -->
 <script src="https://unpkg.com/lunr/lunr.js"></script>
 
 <script>
-  let documents = [];
-  let idx;
+  const statusEl = document.getElementById('search-status');
+  const resultsEl = document.getElementById('search-results');
+  let idx, documents = [];
 
-  // search-index.json load karo
-  fetch('/search-index.json')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('search-index.json not found. Check plugin.');
-      }
-      return response.json();
+  // Load search index
+  fetch('/search-index.json?' + Date.now()) // Cache bust
+    .then(r => {
+      if (!r.ok) throw new Error(`HTTP ${r.status}: search-index.json not found`);
+      return r.json();
     })
     .then(data => {
       documents = data;
-      idx = lunr(function () {
+      idx = lunr(function() {
         this.ref('url');
         this.field('title');
         this.field('body');
-        data.forEach(doc => this.add(doc));
+        data.forEach(d => this.add(d));
       });
-
-      document.getElementById('search-status').innerHTML = `Ready! Found ${data.length} pages.`;
-      console.log('Search loaded:', data.length, 'pages');
-      
-      // Input listener
+      statusEl.innerHTML = `<span class="text-success">Ready! ${data.length} pages indexed.</span>`;
       document.getElementById('search-input').addEventListener('input', search);
     })
     .catch(err => {
-      document.getElementById('search-status').innerHTML = `<span class="text-danger">Error: ${err.message}</span>`;
-      console.error('Search load error:', err);
+      statusEl.innerHTML = `<span class="text-danger">Error: ${err.message}</span>`;
+      console.error('Search failed:', err);
     });
 
   function search() {
     const query = document.getElementById('search-input').value.trim();
-    const resultsDiv = document.getElementById('search-results');
-    
     if (!query || !idx) {
-      resultsDiv.innerHTML = '';
+      resultsEl.innerHTML = '';
       return;
     }
 
     const results = idx.search(query + '*');
     if (results.length === 0) {
-      resultsDiv.innerHTML = `<p class="text-muted">No results for "<strong>${query}</strong>". Try "Agni" or "Gadroli".</p>`;
+      resultsEl.innerHTML = `<p class="text-muted text-center">No results for "<strong>${query}</strong>"</p>`;
       return;
     }
 
-    resultsDiv.innerHTML = results.map(result => {
-      const doc = documents.find(d => d.url === result.ref);
+    resultsEl.innerHTML = results.map(res => {
+      const doc = documents.find(d => d.url === res.ref);
       return `
-        <div class="card mb-3 border-left-primary">
+        <div class="card mb-3">
           <div class="card-body">
             <h5 class="card-title">
               <a href="${doc.url}" class="text-primary">${doc.title}</a>
             </h5>
-            <p class="text-muted small">${doc.url}</p>
+            <p class="text-muted small mb-1">${doc.url}</p>
             <p class="text-secondary">${doc.body}</p>
           </div>
         </div>
@@ -84,6 +79,6 @@ permalink: /search/
 </script>
 
 <style>
-  .card:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-  #search-status { font-style: italic; }
+  .card { transition: 0.2s; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 </style>
