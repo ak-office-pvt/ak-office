@@ -30,7 +30,7 @@ permalink: /search/
 <script src="https://unpkg.com/lunr/lunr.js"></script>
 
 <script>
-// AUTO SCAN PAGES
+// AUTO SCAN PAGES + DESCRIPTION
 const searchData = [
   {% for page in site.pages %}
     {% if page.path contains '.html' and page.path != 'search.html' %}
@@ -38,8 +38,8 @@ const searchData = [
       "url": "{{ page.url | relative_url }}",
       "title": "{{ page.title | default: page.name | remove: '.html' | replace: '-', ' ' | replace: '_', ' ' | split: '/' | last | capitalize }}",
       "body": {{ page.content | strip_html | truncate: 280 | jsonify }},
-      "image": "{{ page.og_image | default: page.image | default: site.og_image | default: '/assets/img/ak-logo.png' }}",
-      "icon": "{{ page.icon | default: 'folder' }}"
+      "desc": "{{ page.description | default: '' | escape }}",
+      "image": "{{ page.og_image | default: page.image | default: site.og_image | default: '/assets/img/ak-logo.png' }}"
     }{% unless forloop.last %},{% endunless %}
     {% endif %}
   {% endfor %}
@@ -51,6 +51,7 @@ if (searchData.length > 0) {
     this.ref('url');
     this.field('title');
     this.field('body');
+    this.field('desc');
     searchData.forEach(d => this.add(d));
   });
   document.getElementById('search-status').innerHTML = 
@@ -71,41 +72,38 @@ document.getElementById('search-input').addEventListener('input', function() {
   el.innerHTML = res.map(r => {
     const d = searchData.find(x => x.url === r.ref);
     
-    // Font Awesome 4.7 Icons
-    const iconMap = {
-      'book': 'fa fa-book',
-      'movie': 'fa fa-film',
-      'gallery': 'fa fa-picture-o',
-      'cricket': 'fa fa-trophy',
-      'folder': 'fa fa-folder'
-    };
-    const iconClass = iconMap[d.icon] || 'fa fa-folder';
-
     return `
       <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card bg-dark text-white h-100" style="border-radius: 18px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.4); transition: all 0.3s;">
+        <div class="card bg-dark text-white h-100" style="border-radius: 18px; overflow: hidden; box-shadow: 0 4px 20px rgba(255,255,255,0.1); transition: all 0.3s;">
           
           <!-- OG Image -->
           <img src="${d.image}" class="card-img-top" alt="${d.title}" style="height: 160px; object-fit: cover; border-bottom: 2px solid #333;">
           
-          <!-- Icon BELOW Image -->
-          <div class="text-center mt-3">
-            <i class="${iconClass} fa-3x" style="color: #FFD700;"></i>
-          </div>
-          
           <!-- Body -->
           <div class="card-body d-flex flex-column p-3">
+            <!-- Title (White → Hover Yellow) -->
             <h5 class="card-title mb-2 text-white title-hover" style="font-family: 'Mulish', sans-serif; font-weight: 700; font-size: 1rem;">
               <a href="${d.url}" class="text-decoration-none stretched-link">${d.title}</a>
             </h5>
-            <p class="text-muted small mb-2 url-hover">
+            
+            <!-- URL -->
+            <p class="text-muted small mb-1 url-hover">
               <i class="fa fa-link"></i> ${d.url}
             </p>
+            
+            <!-- Page Description (from front matter) -->
+            <p class="text-light small mb-2" style="font-style: italic; line-height: 1.4;">
+              ${d.desc || 'No description available.'}
+            </p>
+            
+            <!-- Snippet -->
             <p class="text-light small flex-grow-1" style="line-height: 1.5; font-size: 0.9rem; max-height: 72px; overflow: hidden;">
               ${d.body}
             </p>
+            
+            <!-- View Button -->
             <a href="${d.url}" class="btn btn-sm mt-3 align-self-start" style="background: #FFD700; color: #000; font-weight: 600;">
-              <i class="fa fa-arrow-right"></i> View
+              <i class="fa fa-arrow-right"></i> View Page
             </a>
           </div>
         </div>
@@ -129,8 +127,8 @@ document.getElementById('search-input').addEventListener('input', function() {
   }
   .card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3) !important;
-    border-color: #FFD700;
+    box-shadow: 0 15px 30px rgba(255,255,255,0.15) !important;
+    border-color: #555;
   }
   
   /* Search Input */
@@ -152,8 +150,7 @@ document.getElementById('search-input').addEventListener('input', function() {
   .title-hover a { color: #fff !important; transition: color 0.3s; }
   .title-hover a:hover { color: #FFD700 !important; }
   
-  /* Bright Yellow */
-  .text-warning, .btn { color: #FFD700 !important; }
-  .btn { background: #FFD700; border: none; }
+  /* Button Text Black */
+  .btn { color: #000 !important; font-weight: 600; }
   .btn:hover { background: #e6c200; }
 </style>
