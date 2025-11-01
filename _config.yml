@@ -8,29 +8,18 @@ og_image: "/assets/img/ak-logo.png"
 plugins:
   - jekyll-sitemap
 
+# SIRF EK BAAR include:
 include:
   - _plugins
-  
-# _config.yml mein yeh pura section replace kar
+  - books
+  - my-gallery
+  - movies
+  - about.html
+  - contact.html
 
-collections:
-  html_pages:
-    output: true
-    permalink: /:path/
-
-defaults:
-  - scope:
-      path: ""
-      type: html_pages
-    values:
-      layout: default
-
-# Yeh bhi add kar (important!)
-# _config.yml mein last mein add kar
-include:
+# Keep all HTML files in output
+keep_files:
   - "*.html"
   - "books/**/*.html"
   - "my-gallery/**/*.html"
   - "movies/**/*.html"
-  - "about.html"
-  - "contact.html"
