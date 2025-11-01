@@ -9,14 +9,14 @@ permalink: /search/
     <div class="col-md-10">
       <h1 class="text-center mb-5 text-white" style="font-family: 'Mulish', sans-serif; font-weight: 700;">Site Search</h1>
       
-      <!-- Search Bar (Bootstrap 4 Style) -->
+      <!-- Search Bar -->
       <div class="input-group input-group-lg mb-5">
         <input type="text" id="search-input" class="form-control bg-dark text-white border-0" 
                placeholder="Search books, gallery, movies..." autocomplete="off" 
                style="border-radius: 50px 0 0 50px; height: 60px; font-size: 1.1rem;">
         <div class="input-group-append">
-          <button class="btn btn-warning text-dark" style="border-radius: 0 50px 50px 0; width: 60px; height: 60px;">
-            <i class="fa fa-search"></i>
+          <button class="btn" style="background: #FFD700; border-radius: 0 50px 50px 0; width: 60px; height: 60px;">
+            <i class="fa fa-search text-dark"></i>
           </button>
         </div>
       </div>
@@ -37,7 +37,7 @@ const searchData = [
     {
       "url": "{{ page.url | relative_url }}",
       "title": "{{ page.title | default: page.name | remove: '.html' | replace: '-', ' ' | replace: '_', ' ' | split: '/' | last | capitalize }}",
-      "body": {{ page.content | strip_html | truncate: 300 | jsonify }},
+      "body": {{ page.content | strip_html | truncate: 280 | jsonify }},
       "image": "{{ page.og_image | default: page.image | default: site.og_image | default: '/assets/img/ak-logo.png' }}",
       "icon": "{{ page.icon | default: 'folder' }}"
     }{% unless forloop.last %},{% endunless %}
@@ -64,14 +64,14 @@ document.getElementById('search-input').addEventListener('input', function() {
 
   const res = idx.search(q + '*');
   if (res.length === 0) {
-    el.innerHTML = `<div class="col-12 text-center"><p class="text-muted">No results for "<strong class="text-warning">${q}</strong>"</p></div>`;
+    el.innerHTML = `<div class="col-12 text-center"><p class="text-muted">No results for "<strong style='color:#FFD700'>${q}</strong>"</p></div>`;
     return;
   }
 
   el.innerHTML = res.map(r => {
     const d = searchData.find(x => x.url === r.ref);
     
-    // Icon mapping for Font Awesome 4.7
+    // Font Awesome 4.7 Icons
     const iconMap = {
       'book': 'fa fa-book',
       'movie': 'fa fa-film',
@@ -83,30 +83,28 @@ document.getElementById('search-input').addEventListener('input', function() {
 
     return `
       <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card bg-dark text-white h-100" style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+        <div class="card bg-dark text-white h-100" style="border-radius: 18px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.4); transition: all 0.3s;">
           
-          <!-- Image + Icon -->
-          <div class="position-relative">
-            <img src="${d.image}" class="card-img-top" alt="${d.title}" style="height: 160px; object-fit: cover;">
-            <div class="position-absolute" style="top: 10px; left: 50%; transform: translateX(-50%);">
-              <div class="bg-dark bg-opacity-75 rounded-circle p-2">
-                <i class="${iconClass} fa-2x text-warning"></i>
-              </div>
-            </div>
+          <!-- OG Image -->
+          <img src="${d.image}" class="card-img-top" alt="${d.title}" style="height: 160px; object-fit: cover; border-bottom: 2px solid #333;">
+          
+          <!-- Icon BELOW Image -->
+          <div class="text-center mt-3">
+            <i class="${iconClass} fa-3x" style="color: #FFD700;"></i>
           </div>
           
           <!-- Body -->
           <div class="card-body d-flex flex-column p-3">
-            <h5 class="card-title mb-2" style="font-family: 'Mulish', sans-serif; font-weight: 700;">
-              <a href="${d.url}" class="text-warning text-decoration-none stretched-link">${d.title}</a>
+            <h5 class="card-title mb-2 text-white title-hover" style="font-family: 'Mulish', sans-serif; font-weight: 700; font-size: 1rem;">
+              <a href="${d.url}" class="text-decoration-none stretched-link">${d.title}</a>
             </h5>
             <p class="text-muted small mb-2 url-hover">
               <i class="fa fa-link"></i> ${d.url}
             </p>
-            <p class="text-light small flex-grow-1" style="line-height: 1.5; max-height: 80px; overflow: hidden;">
+            <p class="text-light small flex-grow-1" style="line-height: 1.5; font-size: 0.9rem; max-height: 72px; overflow: hidden;">
               ${d.body}
             </p>
-            <a href="${d.url}" class="btn btn-outline-warning btn-sm mt-3 align-self-start">
+            <a href="${d.url}" class="btn btn-sm mt-3 align-self-start" style="background: #FFD700; color: #000; font-weight: 600;">
               <i class="fa fa-arrow-right"></i> View
             </a>
           </div>
@@ -118,7 +116,7 @@ document.getElementById('search-input').addEventListener('input', function() {
 </script>
 
 <style>
-  /* Tere Theme Ke Hisaab Se */
+  /* Tere Site Theme Ke Hisaab Se */
   body { 
     background: #161616; 
     color: #fff; 
@@ -131,31 +129,31 @@ document.getElementById('search-input').addEventListener('input', function() {
   }
   .card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(255, 193, 7, 0.2) !important;
-    border-color: #ffc107;
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3) !important;
+    border-color: #FFD700;
   }
   
+  /* Search Input */
   .input-group .form-control {
     background: #222 !important;
     border-color: #444;
     color: #fff;
   }
   .input-group .form-control:focus {
-    border-color: #ffc107;
-    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    border-color: #FFD700;
+    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
   }
   
+  /* URL Hover */
   .url-hover { color: #aaa; transition: color 0.3s; }
-  .url-hover:hover { color: #ffc107; }
+  .url-hover:hover { color: #FFD700; }
   
-  .btn-outline-warning {
-    border-color: #ffc107;
-    color: #ffc107;
-  }
-  .btn-outline-warning:hover {
-    background: #ffc107;
-    color: #000;
-  }
+  /* Title Hover */
+  .title-hover a { color: #fff !important; transition: color 0.3s; }
+  .title-hover a:hover { color: #FFD700 !important; }
   
-  .text-warning { color: #ffc107 !important; }
+  /* Bright Yellow */
+  .text-warning, .btn { color: #FFD700 !important; }
+  .btn { background: #FFD700; border: none; }
+  .btn:hover { background: #e6c200; }
 </style>
