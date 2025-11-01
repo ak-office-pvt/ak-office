@@ -12,7 +12,7 @@ permalink: /search/
       <input type="text" id="search-input" class="form-control form-control-lg mb-3" 
              placeholder="Search books, gallery, movies..." autocomplete="off">
       
-      <div id="search-status" class="mb-3 text-center text-success"></div>
+      <div id="search-status" class="mb-3 text-center"></div>
       <div id="search-results"></div>
     </div>
   </div>
@@ -21,21 +21,21 @@ permalink: /search/
 <script src="https://unpkg.com/lunr/lunr.js"></script>
 
 <script>
-// AUTO SCAN ALL .html FILES (DEEP FOLDERS TOO)
+// AUTO SCAN ALL .html FILES USING site.pages
 const searchData = [
-  {% assign html_files = site.html_files | where_exp: "file", "file.path != 'search.html'" %}
-  {% for file in html_files %}
-  {
-    "url": "{{ file.url | relative_url }}",
-    "title": "{{ file.title | default: file.name | remove: '.html' | replace: '-', ' ' | replace: '_', ' ' | split: '/' | last | capitalize }}",
-    "body": {{ file.content | strip_html | truncate: 200 | jsonify }}
-  }{% unless forloop.last %},{% endunless %}
+  {% for page in site.pages %}
+    {% if page.path contains '.html' and page.path != 'search.html' %}
+    {
+      "url": "{{ page.url | relative_url }}",
+      "title": "{{ page.title | default: page.name | remove: '.html' | replace: '-', ' ' | replace: '_', ' ' | split: '/' | last | capitalize }}",
+      "body": {{ page.content | strip_html | truncate: 200 | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endif %}
   {% endfor %}
 ];
 
-// Debug
-console.log('Found HTML files:', {{ site.html_files.size }});
-console.log('Search data:', searchData);
+console.log('Total pages scanned:', {{ site.pages.size }});
+console.log('Searchable HTML files:', searchData.length);
 
 let idx;
 if (searchData.length > 0) {
@@ -49,10 +49,9 @@ if (searchData.length > 0) {
     `<span class="text-success">Ready! ${searchData.length} pages indexed.</span>`;
 } else {
   document.getElementById('search-status').innerHTML = 
-    `<span class="text-danger">No .html files found! Check include paths.</span>`;
+    `<span class="text-danger">No HTML pages found. Check file paths.</span>`;
 }
 
-// Search
 document.getElementById('search-input').addEventListener('input', function() {
   const q = this.value.trim();
   const el = document.getElementById('search-results');
