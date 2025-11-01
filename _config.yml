@@ -14,12 +14,15 @@ include:
   - books
   - my-gallery
   - movies
+  - tool
+  - link
   - about.html
-  - contact.html
 
 # Keep all HTML files in output
 keep_files:
   - "*.html"
+  - "tool/**/*.html"
   - "books/**/*.html"
   - "my-gallery/**/*.html"
   - "movies/**/*.html"
+  - "link/**/*.html"
