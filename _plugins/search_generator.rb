@@ -1,4 +1,5 @@
-require 'json'  # <-- YEH LINE ADD KARNA ZAROORI HAI!
+require 'json'
+require 'fileutils'
 
 module Jekyll
   class SearchIndexGenerator < Generator
@@ -8,31 +9,28 @@ module Jekyll
     def generate(site)
       json = []
       site.pages.each do |page|
-        # Skip layout files, XML, and hidden
+        # Skip unwanted files
         next if page.path.start_with?('_')
         next if page.path.end_with?('.xml')
         next if page.data['search'] == false
 
-        # Title: from front matter, else from filename
-        title = page.data['title']
-        title ||= page.name
-                  .gsub('.html', '')
-                  .gsub(/[-_]/, ' ')
-                  .split
-                  .map(&:capitalize)
-                  .join(' ')
+        # Title: front matter se, warna filename se
+        raw_title = page.data['title'] || page.name.gsub('.html', '')
+        title = raw_title.to_s.strip
+        title = title.split(/[-_]/).map(&:capitalize).join(' ') if title.match?(/[-_]/)
 
-        # Body: first 200 chars of content
-        body = page.content.gsub(/<[^>]*>/, '').strip[0..200] rescue ""
+        # Body: first 200 chars, HTML tags hata ke
+        body = page.content.gsub(/<[^>]*>/, '').gsub(/\s+/, ' ').strip
+        body = body[0..200] + (body.length > 200 ? '...' : '')
 
         json << {
           url: page.url,
-          title: title.strip,
+          title: title.empty? ? 'Untitled' : title,
           body: body
         }
       end
 
-      # Write search-index.json in _site
+      # Write file
       file_path = File.join(site.dest, 'search-index.json')
       FileUtils.mkdir_p(File.dirname(file_path))
       File.write(file_path, JSON.pretty_generate(json))
