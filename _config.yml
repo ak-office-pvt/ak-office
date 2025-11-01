@@ -7,7 +7,6 @@ og_image: "/assets/img/ak-logo.png"
 
 plugins:
   - jekyll-sitemap
-  - search_generator.rb
 
 include:
   - _plugins
