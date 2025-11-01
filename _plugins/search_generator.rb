@@ -19,12 +19,8 @@ module Jekyll
         }
       end
 
-      # Write JSON file
       file_path = File.join(site.dest, 'search-index.json')
       File.write(file_path, JSON.pretty_generate(json))
-
-      # Also add to _site for direct access
-      site.static_files << Jekyll::StaticFile.new(site, site.source, '', 'search-index.json', nil)
     end
   end
 end
