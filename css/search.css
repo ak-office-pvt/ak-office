@@ -1,0 +1,60 @@
+  /* Tere Site Theme */
+  body { 
+    background: #161616; 
+    color: #fff; 
+    font-family: 'Mulish', sans-serif;
+  }
+
+  /* Search Box with Border */
+  .search-box-wrapper {
+    background: #222;
+    padding: 0.5px;
+    border-radius: 50px;
+    border: 2px solid #444;
+    transition: all 0.3s;
+  }
+  .search-box-wrapper:focus-within {
+    border-color: #999;
+  }
+
+  .input-group .form-control {
+    background: transparent !important;
+    border: none;
+    color: #fff;
+  }
+  .input-group .form-control:focus { box-shadow: none; }
+
+  /* Result Box Hover */
+  .result-box {
+    transition: all 0.3s ease;
+    border: 1px solid #000 !important;
+  }
+  .result-box:hover {
+    transform: translateY(-6px);
+    border-color: #FFD700 !important;
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.15);
+  }
+
+  /* Hover Effects */
+  .url-hover { color: #FFD700 !important; transition: color 0.3s; }
+  .url-hover:hover { color: #fff !important; }
+  .title-hover a { color: #fff !important; transition: color 0.3s; }
+  .title-hover a:hover { color: #FFD700 !important; }
+
+  /* MOBILE: SAME AS DESKTOP */
+  @media (max-width: 576px) {
+    .result-box {
+      flex-direction: row !important;
+      min-height: 140px !important;
+    }
+    .result-box > div:first-child {
+      width: 35% !important;
+      min-width: 100px !important;
+    }
+    .result-box > div:last-child {
+      width: 65% !important;
+      padding: 0.75rem !important;
+    }
+    .result-box h5 { font-size: 0.95rem !important; }
+    .result-box p { font-size: 0.75rem !important; }
+  }
