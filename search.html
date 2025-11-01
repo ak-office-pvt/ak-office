@@ -5,7 +5,7 @@ permalink: /search/
 ---
 
 <div class="container mt-5">
-  <h1 class="text-center mb-4">🔍 Site Search</h1>
+  <h1 class="text-center mb-4">Site Search</h1>
   
   <div class="row justify-content-center">
     <div class="col-md-8">
@@ -15,40 +15,24 @@ permalink: /search/
   </div>
 </div>
 
-<!-- Lunr.js CDN -->
+<!-- Lunr.js -->
 <script src="https://unpkg.com/lunr/lunr.js"></script>
 
 <script>
-  // Yeh data sitemap se aayega (neeche load karenge)
-  let documents = [];
   let idx;
 
-  // Sitemap se data load karo
-  fetch('/sitemap.xml')
-    .then(response => response.text())
-    .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+  // Auto-generated JSON load karo
+  fetch('/search-index.json')
+    .then(response => response.json())
     .then(data => {
-      const urls = data.querySelectorAll('url');
-      documents = Array.from(urls).map(url => {
-        const loc = url.querySelector('loc').textContent;
-        const title = loc.split('/').pop().replace(/-/g, ' ').replace(/\//g, '') || 'Home';
-        const path = new URL(loc).pathname;
-        return {
-          id: path,
-          title: title,
-          url: path,
-          body: title // search title mein karega
-        };
-      });
-
-      // Lunr index banao
       idx = lunr(function () {
-        this.ref('id');
+        this.ref('url');
         this.field('title');
         this.field('body');
-        documents.forEach(doc => this.add(doc));
+        data.forEach(doc => this.add(doc));
       });
 
+      console.log('Search ready with', data.length, 'pages');
       document.getElementById('search-input').addEventListener('input', search);
     });
 
@@ -61,21 +45,21 @@ permalink: /search/
       return;
     }
 
-    const results = idx.search(query);
+    const results = idx.search(query + '*');
     if (results.length === 0) {
-      resultsDiv.innerHTML = `<p class="text-muted">No results found for "<strong>${query}</strong>"</p>`;
+      resultsDiv.innerHTML = `<p class="text-muted">No results for "<strong>${query}</strong>"</p>`;
       return;
     }
 
     resultsDiv.innerHTML = results.map(result => {
-      const doc = documents.find(d => d.id === result.ref);
+      const doc = result.ref;
+      const item = window.searchData.find(d => d.url === doc);
       return `
         <div class="card mb-3">
           <div class="card-body">
-            <h5 class="card-title">
-              <a href="${doc.url}" class="text-decoration-none">${doc.title}</a>
-            </h5>
-            <p class="text-muted small">${doc.url}</p>
+            <h5><a href="${item.url}" class="text-primary">${item.title}</a></h5>
+            <p class="text-muted small">${item.url}</p>
+            <p class="text-secondary">${item.body.substring(0, 150)}...</p>
           </div>
         </div>
       `;
@@ -83,7 +67,14 @@ permalink: /search/
   }
 </script>
 
+<script>
+  // Global data for display
+  window.searchData = [];
+  fetch('/search-index.json')
+    .then(r => r.json())
+    .then(data => window.searchData = data);
+</script>
+
 <style>
-  .card-title a { color: #1a73e8; }
-  .card-title a:hover { text-decoration: underline; }
+  .card:hover { box-shadow: 0 4px 12px rgba(0,123,255,0.2); }
 </style>
