@@ -6,27 +6,27 @@ permalink: /search/
 
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-10">
+    <div class="col-md-10 col-lg-8">
       <h1 class="text-center mb-5 text-white" style="font-family: 'Mulish', sans-serif; font-weight: 700;">Site Search</h1>
       
-      <!-- Search Bar -->
-      <div class="input-group input-group-lg mb-5">
-        <input type="text" id="search-input" class="form-control bg-dark text-white border-0" 
-               placeholder="Search books, gallery, movies..." autocomplete="off" 
-               style="border-radius: 50px 0 0 50px; height: 60px; font-size: 1.1rem;">
-        <div class="input-group-append">
-          <button class="btn" style="background: #FFD700; border-radius: 0 50px 50px 0; width: 60px; height: 60px;">
-            <i class="fa fa-search text-dark"></i>
-          </button>
+      <!-- Search Bar with Border -->
+      <div class="search-box-wrapper mb-5">
+        <div class="input-group input-group-lg">
+          <input type="text" id="search-input" class="form-control bg-dark text-white border-0" 
+                 placeholder="Search books, gallery, movies..." autocomplete="off" 
+                 style="height: 60px; font-size: 1.1rem; border-radius: 50px 0 0 50px;">
+          <div class="input-group-append">
+            <button class="btn" style="background: #FFD700; border-radius: 0 50px 50px 0; width: 60px; height: 60px;">
+              <i class="fa fa-search text-dark"></i>
+            </button>
+          </div>
         </div>
       </div>
       
       <div id="search-status" class="text-center mb-4"></div>
 
-      <!-- HORIZONTAL SCROLL CONTAINER -->
-      <div class="horizontal-scroll-container">
-        <div id="search-results" class="d-flex flex-nowrap"></div>
-      </div>
+      <!-- VERTICAL RESULTS -->
+      <div id="search-results" class="row"></div>
     </div>
   </div>
 </div>
@@ -67,7 +67,7 @@ document.getElementById('search-input').addEventListener('input', function() {
 
   const res = idx.search(q + '*');
   if (res.length === 0) {
-  el.innerHTML = `<div class="text-center w-100 p-5"><p class="text-muted">No results for "<strong style='color:#FFD700'>${q}</strong>"</p></div>`;
+    el.innerHTML = `<div class="col-12 text-center py-5"><p class="text-muted h5">No results for "<strong style='color:#FFD700'>${q}</strong>"</p></div>`;
     return;
   }
 
@@ -83,15 +83,15 @@ document.getElementById('search-input').addEventListener('input', function() {
     const shortDesc = (d.desc || 'No description available.').split(' ').length > 11 ? descWords + '...' : descWords;
 
     return `
-      <div class="search-card mx-2 flex-shrink-0" style="width: 280px;">
+      <div class="col-12 mb-4">
         <div class="card bg-dark text-white h-100" style="border-radius: 18px; overflow: hidden; border: 1px solid #000; transition: all 0.3s;">
           
           <!-- OG Image -->
-          <img src="${d.image}" class="card-img-top" alt="${d.title}" style="height: 140px; object-fit: cover; border-bottom: 1px solid #000;">
+          <img src="${d.image}" class="card-img-top" alt="${d.title}" style="height: 180px; object-fit: cover; border-bottom: 1px solid #000;">
           
           <!-- Body -->
-          <div class="card-body d-flex flex-column p-3">
-            <h5 class="card-title mb-2 text-white title-hover" style="font-family: 'Mulish', sans-serif; font-weight: 700; font-size: 0.95rem;">
+          <div class="card-body d-flex flex-column p-4">
+            <h5 class="card-title mb-2 text-white title-hover" style="font-family: 'Mulish', sans-serif; font-weight: 700; font-size: 1.1rem;">
               <a href="${d.url}" class="text-decoration-none stretched-link">${shortTitle}</a>
             </h5>
             
@@ -99,12 +99,12 @@ document.getElementById('search-input').addEventListener('input', function() {
               <i class="fa fa-link"></i> ${d.url}
             </p>
             
-            <p class="text-light small mb-3" style="font-style: italic; line-height: 1.4; font-size: 0.85rem;">
+            <p class="text-light small mb-3" style="font-style: italic; line-height: 1.5; font-size: 0.95rem;">
               ${shortDesc}
             </p>
             
-            <a href="${d.url}" class="btn btn-sm mt-auto align-self-start" style="background: #FFD700; color: #000; font-weight: 600;">
-              <i class="fa fa-arrow-right"></i> View
+            <a href="${d.url}" class="btn btn-sm align-self-start" style="background: #FFD700; color: #000; font-weight: 600;">
+              <i class="fa fa-arrow-right"></i> View Page
             </a>
           </div>
         </div>
@@ -122,51 +122,37 @@ document.getElementById('search-input').addEventListener('input', function() {
     font-family: 'Mulish', sans-serif;
   }
 
-  /* Horizontal Scroll Container */
-  .horizontal-scroll-container {
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    padding: 10px 0;
-    margin: 0 -15px;
-  }
-  .horizontal-scroll-container::-webkit-scrollbar {
-    height: 6px;
-  }
-  .horizontal-scroll-container::-webkit-scrollbar-track {
+  /* Search Box with Border */
+  .search-box-wrapper {
     background: #222;
-    border-radius: 3px;
+    padding: 8px;
+    border-radius: 50px;
+    border: 2px solid #444;
+    transition: all 0.3s;
   }
-  .horizontal-scroll-container::-webkit-scrollbar-thumb {
-    background: #FFD700;
-    border-radius: 3px;
-  }
-
-  /* Card Hover */
-  .search-card {
-    display: inline-block;
-    transition: transform 0.3s ease;
-  }
-  .search-card:hover {
-    transform: translateY(-6px);
-  }
-  .search-card .card {
-    border: 1px solid #000 !important;
-  }
-  .search-card .card:hover {
-    border-color: #FFD700 !important;
+  .search-box-wrapper:focus-within {
+    border-color: #FFD700;
+    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
   }
 
-  /* Search Input */
+  /* Input */
   .input-group .form-control {
-    background: #222 !important;
-    border-color: #444;
+    background: transparent !important;
+    border: none;
     color: #fff;
   }
   .input-group .form-control:focus {
-    border-color: #FFD700;
-    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+    box-shadow: none;
+  }
+
+  /* Card Hover */
+  .card {
+    transition: all 0.3s ease;
+    border: 1px solid #000 !important;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: #FFD700 !important;
   }
 
   /* Hover Effects */
@@ -178,4 +164,12 @@ document.getElementById('search-input').addEventListener('input', function() {
   /* Button */
   .btn { background: #FFD700; color: #000 !important; font-weight: 600; }
   .btn:hover { background: #e6c200; }
+
+  /* Responsive */
+  @media (max-width: 576px) {
+    .search-box-wrapper { padding: 6px; }
+    .card-img-top { height: 150px !important; }
+    .card-body { padding: 1rem !important; }
+    .card-title { font-size: 1rem !important; }
+  }
 </style>
