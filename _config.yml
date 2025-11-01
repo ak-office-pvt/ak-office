@@ -10,8 +10,7 @@ plugins:
 
 include:
   - _plugins
-
-# Add this to your _config.yml
+  
 collections:
   html_pages:
     output: true
