@@ -10,3 +10,15 @@ plugins:
 
 include:
   - _plugins
+
+# Add this to your _config.yml
+collections:
+  html_pages:
+    output: true
+
+defaults:
+  - scope:
+      path: ""
+      type: html_pages
+    values:
+      layout: default
