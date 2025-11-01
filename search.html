@@ -14,9 +14,9 @@ permalink: /search/
         <div class="input-group input-group-lg">
           <input type="text" id="search-input" class="form-control bg-dark text-white border-0" 
                  placeholder="Search books, gallery, movies..." autocomplete="off" 
-                 style="height: 60px; font-size: 1.1rem; border-radius: 50px 0 0 50px;">
+                 style="height: 50px; font-size: 1.1rem; border-radius: 50px 0 0 50px;">
           <div class="input-group-append">
-            <button class="btn" style="background: #FFD700; border-radius: 0 50px 50px 0; width: 60px; height: 60px;">
+            <button class="btn" style="background: #FFD700; border-radius: 0 50px 50px 0; width: 60px; height: 50px;">
               <i class="fa fa-search text-dark"></i>
             </button>
           </div>
@@ -37,7 +37,7 @@ permalink: /search/
 // AUTO SCAN PAGES + DESCRIPTION
 const searchData = [
   {% for page in site.pages %}
-    {% if page.path contains '.html' and page.path != 'search.html' %}
+    {% if page.path contains '.html' and page.path != 'https://avdheshkushwah.pages.dev/search.html' %}
     {
       "url": "{{ page.url | relative_url }}",
       "title": "{{ page.title | default: page.name | remove: '.html' | replace: '-', ' ' | replace: '_', ' ' | split: '/' | last | capitalize }}",
@@ -128,14 +128,13 @@ document.getElementById('search-input').addEventListener('input', function() {
   /* Search Box with Border */
   .search-box-wrapper {
     background: #222;
-    padding: 8px;
+    padding: 0.5px;
     border-radius: 50px;
     border: 2px solid #444;
     transition: all 0.3s;
   }
   .search-box-wrapper:focus-within {
-    border-color: #FFD700;
-    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+    border-color: #999;
   }
 
   .input-group .form-control {
