@@ -6,6 +6,114 @@ og_image: /assets/img/preview-img.jpg
 # Recommended resolution for og_image: 1200x630 pixels, PNG/JPEG
 ---
 
+<div class="container mt-5 search-page">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+
+      <!-- Search Bar with Border -->
+      <div class="search-box-wrapper mb-5">
+        <div class="input-group input-group-lg">
+          <input type="text" id="search-input" class="form-control bg-dark text-white border-0" 
+                 placeholder="Search books, gallery, movies..." autocomplete="off" 
+                 style="height: 50px; font-size: 1.1rem; border-radius: 50px 0 0 50px;">
+          <div class="input-group-append">
+            <button class="btn" style="background: #FFD700; border-radius: 0 50px 50px 0; width: 60px; height: 50px;">
+              <i class="fa fa-search text-dark"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="search-status" class="text-center mb-4"></div>
+
+      <!-- Results: One per row, centered -->
+      <div id="search-results" class="row justify-content-center"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lunr/lunr.js"></script>
+
+<script>
+// AUTO SCAN ALL PAGES (after _config.yml include fix)
+const searchData = [
+  {% for page in site.pages %}
+    {% if page.path contains '.html' and page.path != 'search.html' %}
+    {
+      "url": "{{ page.url | relative_url }}",
+      "title": "{{ page.title | default: page.name | remove: '.html' | replace: '-', ' ' | replace: '_', ' ' | split: '/' | last | capitalize }}",
+      "desc": "{{ page.description | default: '' | escape }}",
+      "image": "{{ page.og_image | default: page.image | default: site.og_image | default: '/assets/img/ak-logo.png' }}"
+    }{% unless forloop.last %},{% endunless %}
+    {% endif %}
+  {% endfor %}
+];
+
+let idx;
+if (searchData.length > 0) {
+  idx = lunr(function () {
+    this.ref('url');
+    this.field('title');
+    this.field('desc');
+    searchData.forEach(d => this.add(d));
+  });
+}
+
+document.getElementById('search-input').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  const el = document.getElementById('search-results');
+  if (!q || !idx) { el.innerHTML = ''; return; }
+
+  const res = idx.search(q + '*');
+  if (res.length === 0) {
+    el.innerHTML = `<div class="col-12 text-center py-5"><p class="text-muted h5">No results for "<strong style='color:#FFD700'>${q}</strong>"</p></div>`;
+    return;
+  }
+
+  el.innerHTML = res.map(r => {
+    const d = searchData.find(x => x.url === r.ref);
+    
+    // Title: 11 words
+    const titleWords = d.title.split(' ').slice(0, 11).join(' ');
+    const shortTitle = d.title.split(' ').length > 11 ? titleWords + '...' : titleWords;
+    
+    // Desc: 16 words
+    const descWords = (d.desc || 'No description available.').split(' ').slice(0, 16).join(' ');
+    const shortDesc = (d.desc || 'No description available.').split(' ').length > 16 ? descWords + '...' : descWords;
+
+    return `
+  <div class="col-12 mb-4">
+    <div class="result-box d-flex flex-row align-items-stretch">
+      
+      <!-- LEFT: OG Image -->
+      <div class="flex-shrink-0">
+        <img src="${d.image}" alt="${d.title}" 
+             style="max-width: 90%; max-height: 90%; width: auto; height: auto; object-fit: contain; display: block; margin: auto;">
+      </div>
+      
+      <!-- RIGHT: Content -->
+      <div class="d-flex flex-column flex-grow-1">
+        <h5 class="text-white mb-1 title-hover" style="font-family: 'Mulish', sans-serif; font-weight: 700; font-size: 1rem; line-height: 1.3; margin: 0.5rem 0.75rem 0;">
+          <a href="${d.url}" class="text-decoration-none stretched-link">${shortTitle}</a>
+        </h5>
+        
+        <p class="text-warning small mb-1 url-hover" style="font-size: 0.8rem; margin: 0 0.75rem;">
+          <i class="fa fa-link"></i> ${d.url}
+        </p>
+        
+        <p class="text-light small flex-grow-1" style="font-style: italic; line-height: 1.4; font-size: 0.85rem; margin: 0 0.75rem 0.5rem;">
+          ${shortDesc}
+        </p>
+      </div>
+    </div>
+  </div>
+`;
+  }).join('');
+});
+</script>
+  <link rel="stylesheet" type="text/css" href="/css/search.css" />
+
+
 
   <h5 class="header3" style="text-align: left;"><b> My Dashboard </b><i class="fa fa-caret-down"
       style="float:right;margin-bottom:10px;color:#999"></i></h5>
