@@ -56,9 +56,8 @@
 
 /* HOVER PE BUTTON */
 .search-page .input-group .btn:hover {
-  background: #FFA500 !important;           /* ORANGE HOVER */
+  background: #fff !important;           /* ORANGE HOVER */
   transform: scale(1.05) !important;
-  box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4) !important;
 }
 
 .search-page .search-box-wrapper {
