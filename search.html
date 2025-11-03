@@ -17,7 +17,7 @@ permalink: /search/
                  placeholder="Search books, gallery, movies..." autocomplete="off" 
                  style="height: 50px; font-size: 1.1rem; border-radius: 50px 0 0 50px;">
           <div class="input-group-append">
-            <button class="btn" style="background: #FFD700; border-radius: 0 50px 50px 0; width: 60px; height: 50px;">
+            <button class="btn" style="background: #f8fc05; border-radius: 0 50px 50px 0; width: 60px; height: 50px;">
               <i class="fa fa-search text-dark"></i>
             </button>
           </div>
@@ -71,7 +71,7 @@ document.getElementById('search-input').addEventListener('input', function() {
 
   const res = idx.search(q + '*');
   if (res.length === 0) {
-    el.innerHTML = `<div class="col-12 text-center py-5"><p class="text-muted h5">No results for "<strong style='color:#FFD700'>${q}</strong>"</p></div>`;
+    el.innerHTML = `<div class="col-12 text-center py-5"><p class="text-muted h5">No results for "<strong style='color:#f8fc05'>${q}</strong>"</p></div>`;
     return;
   }
 
