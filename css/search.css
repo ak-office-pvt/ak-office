@@ -1,93 +1,132 @@
-  /* ISOLATED CSS – NO CONFLICT */
-  .search-page .search-box-wrapper {
-    background: #222;
-    padding: 2px;
-    border-radius: 50px;
-    border: 2px solid #444;
-    transition: all 0.3s;
-  }
-  .search-page .search-box-wrapper:focus-within {
-    border-color: #999;
-    box-shadow: 0 0 0 0.2rem rgba(9, 9, 0, 0.25);
-  }
 
-  .search-page .input-group .form-control {
-    background: transparent !important;
-    border: none;
-    color: #fff;
-  }
-  .search-page .input-group .form-control:focus { 
-    box-shadow: none; 
-  }
+/* SEARCH BOX WRAPPER – GOLD BORDER + ROUNDED */
+.search-page .search-box-wrapper {
+  background: #1a1a1a !important;           /* DARK BG BEHIND */
+  padding: 4px !important;
+  border-radius: 50px !important;
+  border: 1.5px solid #777 !important;     /* GOLD BORDER */
+  transition: all 0.4s ease !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
 
-  /* RESULT BOX – FIXED 120px HEIGHT */
+/* FOCUS PE GLOW */
+.search-page .search-box-wrapper:focus-within {
+  border-color: #fff !important;    
+  transform: scale(1.02) !important;
+}
+
+/* INPUT FIELD – DARK BLUE BG */
+.search-page .input-group .form-control {
+  background: #252525 !important;           /* DEEP BLUE */
+  border: none !important;
+  color: #ccc !important;
+  font-size: 1.1rem !important;
+  height: 56px !important;
+  border-radius: 50px 0 0 50px !important;
+  padding: 0 1.5rem !important;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* INPUT PLACEHOLDER */
+.search-page .input-group .form-control::placeholder {
+  color: #888 !important;
+  font-style: italic;
+}
+
+/* SEARCH BUTTON – GOLD */
+.search-page .input-group .btn {
+  background: #FFD700 !important;           /* GOLD BG */
+  border: none !important;
+  border-radius: 0 50px 50px 0 !important;
+  width: 64px !important;
+  height: 56px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* BUTTON ICON */
+.search-page .input-group .btn i {
+  color: #000 !important;
+  font-size: 1.3rem !important;
+  font-weight: bold !important;
+}
+
+/* HOVER PE BUTTON */
+.search-page .input-group .btn:hover {
+  background: #FFA500 !important;           /* ORANGE HOVER */
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4) !important;
+}
+
+
+  /* NO SCOPED – FULL CONTROL */
   .search-page .result-box {
-    transition: all 0.3s ease;
-    border: 1.5px solid #000 !important;
-    flex-direction: row !important;
-    min-height: 150px !important;
-    height: 150px !important;   /* FIXED HEIGHT */
+    height: 140px !important;
     display: flex !important;
+    flex-direction: row !important;
     align-items: stretch !important;
+    border: 1px solid #000 !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+    background: transparent !important;
   }
 
-  /* IMAGE PARENT – FULL HEIGHT */
   .search-page .result-box > div:first-child {
-    height: 100% !important;
     width: 30% !important;
     min-width: 100px !important;
-    overflow: hidden !important;
+    height: 100% !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background: #1a1a1a;
+    background: #101010 !important;
   }
 
-  /* IMAGE – 100% FIT, ORIGINAL RATIO PRESERVE */
   .search-page .result-box img {
-    max-width: 100% !important;
-    max-height: 100% !important;
-    width: auto !important;
-    height: auto !important;
+    max-width: 90% !important;
+    max-height: 90% !important;
     object-fit: contain !important;
-    display: block !important;
   }
 
-  /* CONTENT SIDE */
+  /* CONTENT SIDE – YE DIKHEGA */
   .search-page .result-box > div:last-child {
     width: 70% !important;
+    height: 100% !important;
     padding: 0.75rem !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
+    background: #202020 !important;   /* DIKHEGA */
+    transition: background 0.3s ease !important;
+  }
+
+  .search-page .result-box:hover > div:last-child {
+    background: #303030 !important;
   }
 
   .search-page .result-box:hover {
     transform: translateY(-4px);
-    border-color: #FFD700 !important;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.20);
+    border-color: #000 !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
   }
 
   .search-page .url-hover { 
-    color: #1cc6ff !important; 
-    transition: color 0.3s; 
-  }
-  .search-page .url-hover:hover { 
-    color: #fff !important; 
+    color: #1cc6ff  !important; 
   }
   .search-page .title-hover a { 
     color: #fff !important; 
-    transition: color 0.3s; 
   }
   .search-page .title-hover a:hover { 
     color: #FFD700 !important; 
   }
 
-  /* MOBILE: SAME 120px HEIGHT */
+  /* MOBILE */
   @media (max-width: 576px) {
     .search-page .result-box {
-      height: 150px !important;
-      min-height: 150px !important;
+      height: 140px !important;
     }
     .search-page .result-box > div:first-child {
       width: 35% !important;
@@ -96,13 +135,5 @@
     .search-page .result-box > div:last-child {
       width: 65% !important;
       padding: 0.5rem !important;
-    }
-    .search-page .result-box h5 { 
-      font-size: 0.9rem !important; 
-      margin-bottom: 0.25rem !important;
-    }
-    .search-page .result-box p { 
-      font-size: 0.7rem !important; 
-      margin-bottom: 0.25rem !important;
     }
   }
