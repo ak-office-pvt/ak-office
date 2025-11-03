@@ -1,60 +1,108 @@
-  /* Tere Site Theme */
-  body { 
-    background: #161616; 
-    color: #fff; 
-    font-family: 'Mulish', sans-serif;
-  }
-
-  /* Search Box with Border */
-  .search-box-wrapper {
+  /* ISOLATED CSS – NO CONFLICT */
+  .search-page .search-box-wrapper {
     background: #222;
-    padding: 0.5px;
+    padding: 2px;
     border-radius: 50px;
     border: 2px solid #444;
     transition: all 0.3s;
   }
-  .search-box-wrapper:focus-within {
+  .search-page .search-box-wrapper:focus-within {
     border-color: #999;
+    box-shadow: 0 0 0 0.2rem rgba(9, 9, 0, 0.25);
   }
 
-  .input-group .form-control {
+  .search-page .input-group .form-control {
     background: transparent !important;
     border: none;
     color: #fff;
   }
-  .input-group .form-control:focus { box-shadow: none; }
+  .search-page .input-group .form-control:focus { 
+    box-shadow: none; 
+  }
 
-  /* Result Box Hover */
-  .result-box {
+  /* RESULT BOX – FIXED 120px HEIGHT */
+  .search-page .result-box {
     transition: all 0.3s ease;
-    border: 1px solid #000 !important;
+    border: 1.5px solid #000 !important;
+    flex-direction: row !important;
+    min-height: 150px !important;
+    height: 150px !important;   /* FIXED HEIGHT */
+    display: flex !important;
+    align-items: stretch !important;
   }
-  .result-box:hover {
-    transform: translateY(-6px);
+
+  /* IMAGE PARENT – FULL HEIGHT */
+  .search-page .result-box > div:first-child {
+    height: 100% !important;
+    width: 30% !important;
+    min-width: 100px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #1a1a1a;
+  }
+
+  /* IMAGE – 100% FIT, ORIGINAL RATIO PRESERVE */
+  .search-page .result-box img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  /* CONTENT SIDE */
+  .search-page .result-box > div:last-child {
+    width: 70% !important;
+    padding: 0.75rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
+  .search-page .result-box:hover {
+    transform: translateY(-4px);
     border-color: #FFD700 !important;
-    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.15);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.20);
   }
 
-  /* Hover Effects */
-  .url-hover { color: #FFD700 !important; transition: color 0.3s; }
-  .url-hover:hover { color: #fff !important; }
-  .title-hover a { color: #fff !important; transition: color 0.3s; }
-  .title-hover a:hover { color: #FFD700 !important; }
+  .search-page .url-hover { 
+    color: #1cc6ff !important; 
+    transition: color 0.3s; 
+  }
+  .search-page .url-hover:hover { 
+    color: #fff !important; 
+  }
+  .search-page .title-hover a { 
+    color: #fff !important; 
+    transition: color 0.3s; 
+  }
+  .search-page .title-hover a:hover { 
+    color: #FFD700 !important; 
+  }
 
-  /* MOBILE: SAME AS DESKTOP */
+  /* MOBILE: SAME 120px HEIGHT */
   @media (max-width: 576px) {
-    .result-box {
-      flex-direction: row !important;
-      min-height: 140px !important;
+    .search-page .result-box {
+      height: 150px !important;
+      min-height: 150px !important;
     }
-    .result-box > div:first-child {
+    .search-page .result-box > div:first-child {
       width: 35% !important;
-      min-width: 100px !important;
+      min-width: 90px !important;
     }
-    .result-box > div:last-child {
+    .search-page .result-box > div:last-child {
       width: 65% !important;
-      padding: 0.75rem !important;
+      padding: 0.5rem !important;
     }
-    .result-box h5 { font-size: 0.95rem !important; }
-    .result-box p { font-size: 0.75rem !important; }
+    .search-page .result-box h5 { 
+      font-size: 0.9rem !important; 
+      margin-bottom: 0.25rem !important;
+    }
+    .search-page .result-box p { 
+      font-size: 0.7rem !important; 
+      margin-bottom: 0.25rem !important;
+    }
   }
