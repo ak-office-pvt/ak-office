@@ -15,9 +15,9 @@ permalink: /search/
         <div class="input-group input-group-lg">
           <input type="text" id="search-input" class="form-control bg-dark text-white border-0" 
                  placeholder="Search books, gallery, movies..." autocomplete="off" 
-                 style="height: 40px; font-size: 1.1rem; border-radius: 50px 0 0 50px;">
+                 style="height: 50px; font-size: 1.1rem; border-radius: 50px 0 0 50px;">
           <div class="input-group-append">
-            <button class="btn" style="background: #FFD700; border-radius: 0 50px 50px 0; width: 60px; height: 40px;">
+            <button class="btn" style="background: #FFD700; border-radius: 0 50px 50px 0; width: 60px; height: 50px;">
               <i class="fa fa-search text-dark"></i>
             </button>
           </div>
@@ -78,13 +78,13 @@ document.getElementById('search-input').addEventListener('input', function() {
   el.innerHTML = res.map(r => {
     const d = searchData.find(x => x.url === r.ref);
     
-    // Title: 6-7 words
-    const titleWords = d.title.split(' ').slice(0, 7).join(' ');
+    // Title: 11 words
+    const titleWords = d.title.split(' ').slice(0, 11).join(' ');
     const shortTitle = d.title.split(' ').length > 7 ? titleWords + '...' : titleWords;
     
-    // Desc: 10-11 words
-    const descWords = (d.desc || 'No description available.').split(' ').slice(0, 11).join(' ');
-    const shortDesc = (d.desc || 'No description available.').split(' ').length > 11 ? descWords + '...' : descWords;
+    // Desc: 16 words
+    const descWords = (d.desc || 'No description available.').split(' ').slice(0, 16).join(' ');
+    const shortDesc = (d.desc || 'No description available.').split(' ').length > 16 ? descWords + '...' : descWords;
 
     return `
       <div class="col-12 mb-4">
@@ -121,76 +121,4 @@ document.getElementById('search-input').addEventListener('input', function() {
 });
 </script>
 
-<style scoped>
-  /* FULLY ISOLATED CSS – NO CONFLICT WITH MAIN CSS */
-  .search-page .search-box-wrapper {
-    background: #222;
-    padding: 8px;
-    border-radius: 50px;
-    border: 2px solid #444;
-    transition: all 0.3s;
-  }
-  .search-page .search-box-wrapper:focus-within {
-    border-color: #FFD700;
-    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
-  }
-
-  .search-page .input-group .form-control {
-    background: transparent !important;
-    border: none;
-    color: #fff;
-  }
-  .search-page .input-group .form-control:focus { 
-    box-shadow: none; 
-  }
-
-  .search-page .result-box {
-    transition: all 0.3s ease;
-    border: 1px solid #000 !important;
-  }
-  .search-page .result-box:hover {
-    transform: translateY(-6px);
-    border-color: #FFD700 !important;
-    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.15);
-  }
-
-  .search-page .url-hover { 
-    color: #FFD700 !important; 
-    transition: color 0.3s; 
-  }
-  .search-page .url-hover:hover { 
-    color: #fff !important; 
-  }
-  .search-page .title-hover a { 
-    color: #fff !important; 
-    transition: color 0.3s; 
-  }
-  .search-page .title-hover a:hover { 
-    color: #FFD700 !important; 
-  }
-
-  /* MOBILE: SAME AS DESKTOP – LEFT-RIGHT LAYOUT */
-  @media (max-width: 576px) {
-    .search-page .result-box {
-      flex-direction: row !important;
-      min-height: 140px !important;
-    }
-    .search-page .result-box > div:first-child {
-      width: 35% !important;
-      min-width: 100px !important;
-    }
-    .search-page .result-box > div:last-child {
-      width: 65% !important;
-      padding: 0.75rem !important;
-    }
-    .search-page .result-box h5 { 
-      font-size: 0.95rem !important; 
-    }
-    .search-page .result-box p { 
-      font-size: 0.75rem !important; 
-    }
-    .search-page .result-box img { 
-      height: 140px !important; 
-    }
-  }
-</style>
+  <link rel="stylesheet" type="text/css" href="/css/search.css" />
