@@ -35,7 +35,7 @@
 
 /* SEARCH BUTTON – GOLD */
 .search-page .input-group .btn {
-  background: #FFD700 !important;           /* GOLD BG */
+  background: ##f8fc05 !important;           /* GOLD BG */
   border: none !important;
   border-radius: 0 50px 50px 0 !important;
   width: 64px !important;
@@ -124,7 +124,7 @@
     color: #fff !important; 
   }
   .search-page .title-hover a:hover { 
-    color: #FFD700 !important; 
+    color: ##f8fc05 !important; 
   }
 
   /* MOBILE */
