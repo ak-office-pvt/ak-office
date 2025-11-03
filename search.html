@@ -1,14 +1,19 @@
 ---
 layout: default
-title: Search Page - Avdhesh Kushwah Official
+title: Search - Avdhesh Kushwah Official
 permalink: /search/
 ---
-  <h5 class="header3" style="text-align: center;"><b> Search Page </b><i class="fa fa-caret-down"
-      style="float:right;margin-bottom:10px;color:#999"></i></h5>
-<div class="container mt-5">
+
+<div class="container mt-5 search-page">
   <div class="row justify-content-center">
     <div class="col-md-10 col-lg-8">
-      
+
+      <!-- Header -->
+      <h5 class="text-center mb-4 text-white" style="font-family: 'Mulish', sans-serif; font-weight: 700;">
+        <b>Search Page</b>
+        <i class="fa fa-caret-down" style="float:right; color:#999;"></i>
+      </h5>
+
       <!-- Search Bar with Border -->
       <div class="search-box-wrapper mb-5">
         <div class="input-group input-group-lg">
@@ -25,15 +30,16 @@ permalink: /search/
       
       <div id="search-status" class="text-center mb-4"></div>
 
-      <!-- VERTICAL RESULTS – MOBILE PE BHI LEFT-RIGHT -->
+      <!-- Results: One per row, centered -->
       <div id="search-results" class="row justify-content-center"></div>
     </div>
   </div>
 </div>
 
 <script src="https://unpkg.com/lunr/lunr.js"></script>
+
 <script>
-  // AUTO SCAN PAGES + DESCRIPTION
+// AUTO SCAN ALL PAGES (after _config.yml include fix)
 const searchData = [
   {% for page in site.pages %}
     {% if page.path contains '.html' and page.path != 'search.html' %}
@@ -57,6 +63,9 @@ if (searchData.length > 0) {
   });
   document.getElementById('search-status').innerHTML = 
     `<span class="text-success" style="font-family: 'Mulish', sans-serif; font-weight: 700;">Ready! ${searchData.length} pages indexed.</span>`;
+} else {
+  document.getElementById('search-status').innerHTML = 
+    `<span class="text-danger">No pages found. Check _config.yml includes.</span>`;
 }
 
 document.getElementById('search-input').addEventListener('input', function() {
@@ -74,12 +83,12 @@ document.getElementById('search-input').addEventListener('input', function() {
     const d = searchData.find(x => x.url === r.ref);
     
     // Title: 6-7 words
-    const titleWords = d.title.split(' ').slice(0, 20).join(' ');
-    const shortTitle = d.title.split(' ').length > 20 ? titleWords + ' ...' : titleWords;
+    const titleWords = d.title.split(' ').slice(0, 7).join(' ');
+    const shortTitle = d.title.split(' ').length > 7 ? titleWords + '...' : titleWords;
     
     // Desc: 10-11 words
-    const descWords = (d.desc || 'No description available.').split(' ').slice(0, 25).join(' ');
-    const shortDesc = (d.desc || 'No description available.').split(' ').length > 25 ? descWords + ' ...' : descWords;
+    const descWords = (d.desc || 'No description available.').split(' ').slice(0, 11).join(' ');
+    const shortDesc = (d.desc || 'No description available.').split(' ').length > 11 ? descWords + '...' : descWords;
 
     return `
       <div class="col-12 mb-4">
@@ -114,6 +123,78 @@ document.getElementById('search-input').addEventListener('input', function() {
     `;
   }).join('');
 });
-</script></script>
-<link rel="stylesheet" type="text/css" href="/css/search.css" />
+</script>
 
+<style scoped>
+  /* FULLY ISOLATED CSS – NO CONFLICT WITH MAIN CSS */
+  .search-page .search-box-wrapper {
+    background: #222;
+    padding: 8px;
+    border-radius: 50px;
+    border: 2px solid #444;
+    transition: all 0.3s;
+  }
+  .search-page .search-box-wrapper:focus-within {
+    border-color: #FFD700;
+    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+  }
+
+  .search-page .input-group .form-control {
+    background: transparent !important;
+    border: none;
+    color: #fff;
+  }
+  .search-page .input-group .form-control:focus { 
+    box-shadow: none; 
+  }
+
+  .search-page .result-box {
+    transition: all 0.3s ease;
+    border: 1px solid #000 !important;
+  }
+  .search-page .result-box:hover {
+    transform: translateY(-6px);
+    border-color: #FFD700 !important;
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.15);
+  }
+
+  .search-page .url-hover { 
+    color: #FFD700 !important; 
+    transition: color 0.3s; 
+  }
+  .search-page .url-hover:hover { 
+    color: #fff !important; 
+  }
+  .search-page .title-hover a { 
+    color: #fff !important; 
+    transition: color 0.3s; 
+  }
+  .search-page .title-hover a:hover { 
+    color: #FFD700 !important; 
+  }
+
+  /* MOBILE: SAME AS DESKTOP – LEFT-RIGHT LAYOUT */
+  @media (max-width: 576px) {
+    .search-page .result-box {
+      flex-direction: row !important;
+      min-height: 140px !important;
+    }
+    .search-page .result-box > div:first-child {
+      width: 35% !important;
+      min-width: 100px !important;
+    }
+    .search-page .result-box > div:last-child {
+      width: 65% !important;
+      padding: 0.75rem !important;
+    }
+    .search-page .result-box h5 { 
+      font-size: 0.95rem !important; 
+    }
+    .search-page .result-box p { 
+      font-size: 0.75rem !important; 
+    }
+    .search-page .result-box img { 
+      height: 140px !important; 
+    }
+  }
+</style>
