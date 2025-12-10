@@ -2,29 +2,29 @@
 /* SEARCH BOX WRAPPER – GOLD BORDER + ROUNDED */
 .search-page .search-box-wrapper {
   background: #1a1a1a !important;           /* DARK BG BEHIND */
-  padding: 4px !important;
+  padding: 0.9px !important;
   border-radius: 50px !important;
-  border: 1.5px solid #777 !important;     /* GOLD BORDER */
+  border:  solid #555 !important;     /* GOLD BORDER */
   transition: all 0.4s ease !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 1px 40px rgba(0, 0, 0, 0.5) !important;
 }
 
 /* FOCUS PE GLOW */
 .search-page .search-box-wrapper:focus-within {
-  border-color: #fff !important;    
+  border-color: #f8fc05 !important;    
+  box-shadow: 0 1px 40px rgba(235, 255, 56, 0.2) !important;
   transform: scale(1.02) !important;
 }
 
 /* INPUT FIELD – DARK BLUE BG */
 .search-page .input-group .form-control {
-  background: #252525 !important;           /* DEEP BLUE */
+  background: #282828 !important;           /* DEEP BLUE */
   border: none !important;
   color: #ccc !important;
-  font-size: 1.1rem !important;
+  font-size: 1rem !important;
   height: 56px !important;
   border-radius: 50px 0 0 50px !important;
-  padding: 0 1.5rem !important;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  padding: 0 1.2rem !important;
 }
 
 /* INPUT PLACEHOLDER */
@@ -38,12 +38,11 @@
   background: #f8fc05 !important;           /* GOLD BG */
   border: none !important;
   border-radius: 0 50px 50px 0 !important;
-  width: 64px !important;
+  width: 60px !important;
   height: 56px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  transition: all 0.3s ease !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -57,7 +56,7 @@
 /* HOVER PE BUTTON */
 .search-page .input-group .btn:hover {
   background: #fff !important;           /* ORANGE HOVER */
-  transform: scale(1.05) !important;
+  border:  solid #f8fc05 !important;  
 }
 
 .search-page .search-box-wrapper {
