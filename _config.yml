@@ -14,6 +14,7 @@ include:
   - books
   - my-gallery
   - movies
+  - Games
   - tool
   - link
   - about.html
@@ -25,4 +26,5 @@ keep_files:
   - "books/**/*.html"
   - "my-gallery/**/*.html"
   - "movies/**/*.html"
+  - "Games/**/*.html"
   - "link/**/*.html"
