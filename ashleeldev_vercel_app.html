@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Modi Fly - The Ultimate Game
+    </title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/Games/Modifly/icon.jpg" />
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Modi Fly - The Ultimate Game" />
+    <meta name="description" content="Play Modi Fly — The Ultimate Flying Adventure with Modi ji! Join Modi, Kejriwal, and Rahul in a fun, chaotic flying challenge. Created by Denver1769 | DenverIsAlive Web Games." />
+    <meta name="keywords" content="Modi Fly, Narendra Modi Fly, Modi ji game, Modi jetpack game, Arvind Kejriwal, Rahul Gandhi, Vote Chori, Indian politics game, Modi flight, Modi funny game, Denver1769, DenverIsAlive, Denver games, Web Developer, HTML5 Game, Browser Game, Free Web Game" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://t.me/DenverIsAlivee" />
+    <meta property="og:title" content="Modi Fly - The Ultimate Game" />
+    <meta property="og:description" content="Fly high with Modi ji! Dodge obstacles, beat scores, and laugh through chaos in this fun web game by Denver1769." />
+    <meta property="og:image" content="/Games/Modifly/icon.jpg" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Modi Fly - The Ultimate Jetpack Adventure" />
+    <meta name="twitter:description" content="The Ultimate Flying Adventure with Modi ji, Rahul &amp; Kejriwal. Play now — created by Denver1769!" />
+    <meta name="twitter:image" content="/Games/Modifly/icon.jpg" />
+    <!-- Additional SEO -->
+    <meta name="author" content="Denver1769" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="3 days" />
+    <meta name="application-name" content="Modi Fly Game" />
+    <meta name="generator" content="HTML5 / JavaScript" />
+    <!-- Structured Data (JSON-LD for Google) -->
+    <script type="application/ld+json">
+      {
+  &#34;@context&#34;: &#34;https://schema.org&#34;,
+  &#34;@type&#34;: &#34;VideoGame&#34;,
+  &#34;name&#34;: &#34;Modi Fly&#34;,
+  &#34;alternateName&#34;: &#34;Modi Fly Game&#34;,
+  &#34;url&#34;: &#34;https://www.instagram.com/ashli.dev&#34;,
+  &#34;image&#34;: &#34;/Games/Modifly/icon.jpg&#34;,
+  &#34;author&#34;: {
+    &#34;@type&#34;: &#34;Person&#34;,
+    &#34;name&#34;: &#34;ashli dev&#34;
+  },
+  &#34;publisher&#34;: {
+    &#34;@type&#34;: &#34;Memer&#34;,
+    &#34;name&#34;: &#34;ashli.dev&#34;
+  },
+  &#34;description&#34;: &#34;The Ultimate Flying Adventure with Modi ji. A fun political parody browser game featuring Modi, Kejriwal, and Rahul Gandhi.&#34;,
+  &#34;keywords&#34;: [&#34;Modi Fly&#34;, &#34;Narendra Modi Fly&#34;, &#34;Modi ji game&#34;, &#34;Rahul Gandhi&#34;, &#34;Arvind Kejriwal&#34;, &#34;Vote Chori&#34;, &#34;Denver1769&#34;, &#34;ashli.dev&#34;, &#34;ashli dev Games&#34;, &#34;Web Developer&#34;, &#34;Funny Web Game&#34;, &#34;HTML5 Game&#34;]
+}
+    </script>
+    <style>
+      @import url(&#39;https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap&#39;);
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      text-align: center;
+      font-family: &#39;Press Start 2P&#39;, cursive;
+      user-select: none;
+      background: linear-gradient(180deg, #87CEEB 0%, #70c5ce 100%);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Start Screen Overlay */
+    #start-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    #start-overlay.hide {
+      opacity: 0;
+      transform: scale(1.1);
+      pointer-events: none;
+    }
+    
+    .game-logo {
+      margin-bottom: 50px;
+      animation: logoFloat 3s ease-in-out infinite;
+    }
+    
+    .game-logo h1 {
+      font-size: clamp(2rem, 8vw, 4rem);
+      color: #fff;
+      text-shadow: 0 0 20px #ff6b6b, 0 0 40px #ff6b6b, 4px 4px 0 #000;
+      margin-bottom: 20px;
+    }
+    
+    .game-logo .subtitle {
+      font-size: clamp(0.8rem, 3vw, 1.2rem);
+      color: #ffd700;
+      text-shadow: 2px 2px 0 #000;
+    }
+    
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(2deg); }
+    }
+    
+    .play-button {
+      padding: 20px 60px;
+      font-family: &#39;Press Start 2P&#39;, cursive;
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      color: #fff;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 50%, #ff4757 100%);
+      border: 4px solid #fff;
+      border-radius: 15px;
+      cursor: pointer;
+      text-shadow: 2px 2px 0 #000;
+      box-shadow: 0 8px 0 #c92a2a, 0 15px 30px rgba(255, 107, 107, 0.5);
+      transition: all 0.1s;
+      position: relative;
+      overflow: hidden;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .play-button::before {
+      content: &#39;&#39;;
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
+    }
+    
+    @keyframes shine {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .play-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 0 #c92a2a, 0 20px 40px rgba(255, 107, 107, 0.7);
+    }
+    
+    .play-button:active {
+      transform: translateY(4px) scale(1.05);
+      box-shadow: 0 4px 0 #c92a2a, 0 10px 20px rgba(255, 107, 107, 0.5);
+    }
+    
+    #game-container {
+      position: relative;
+      max-width: 400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    
+    header {
+      width: 100%;
+      position: relative;
+      z-index: 10;
+    }
+    
+     .game-logo {
+    color: #000;
+    margin-bottom: 30px;
+  }
+
+  .game-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    margin-bottom: 15px;
+  }
+    
+    h1 {
+      padding: 1rem 0;
+      margin: 0;
+      font-size: clamp(1.2rem, 5vw, 2rem);
+      color: #fff;
+      text-shadow: 4px 4px 0 #000;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .score-container {
+      display: flex;
+      justify-content: center;
+      padding: 12px;
+      background: linear-gradient(180deg, #5EE270 0%, #4CAF50 100%);
+      border: 4px solid #000;
+      border-radius: 10px;
+      margin: 0 10px 10px 10px;
+      box-shadow: 0 6px 0 #2d5016;
+    }
+    
+    #currentScore {
+      font-size: clamp(0.8rem, 3vw, 1rem);
+      color: #fff;
+      text-shadow: 2px 2px 0 #000;
+    }
+    
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: #70c5ce;
+      border: 4px solid #000;
+      border-radius: 10px;
+      box-shadow: 0 8px 0 #000, 0 12px 20px rgba(0,0,0,0.3);
+      max-width: 100%;
+      height: auto;
+      touch-action: none;
+    }
+    
+    #overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      display: none;
+      text-align: center;
+      animation: popIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    @keyframes popIn {
+      0% { transform: translate(-50%, -50%) scale(0); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+    
+    #overlay.show {
+      display: block;
+    }
+    
+    #overlay-image {
+      max-width: 300px;
+      width: 80vw;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    }
+    
+    .btn-restart {
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-family: &#39;Press Start 2P&#39;, cursive;
+      font-size: 0.8rem;
+      background: linear-gradient(180deg, #ff6b6b 0%, #ee5a52 100%);
+      color: #fff;
+      border: 4px solid #000;
+      border-radius: 10px;
+      cursor: pointer;
+      text-shadow: 2px 2px 0 #000;
+      box-shadow: 0 6px 0 #c92a2a;
+      transition: all 0.1s;
+    }
+    
+    .btn-restart:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #c92a2a;
+    }
+    
+    @media (max-width: 450px) {
+      #game-container {
+        width: 95%;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <!-- Start Screen Overlay -->
+    <div id="start-overlay">
+      <div class="game-logo">
+        <img src="/Games/Modifly/icon.jpg" alt="Game Icon" class="game-icon" />
+        <h1>
+          🚀 MODI FLY Web Game 🚀
+        </h1>
+        <div class="subtitle">
+          The Ultimate Flying Adventure with Modi ji.
+        </div>
+      </div>
+      <button class="play-button" onclick="startGame()">
+        PLAY
+      </button>
+    </div>
+    <div id="game-container">
+      <header>
+        <h1>
+           🚀 Modi Fly 🚀 
+        </h1>
+        <div class="score-container">
+          <div id="currentScore">
+            Score: 0
+          </div>
+        </div>
+      </header>
+      <canvas id="canvas" width="400" height="600">
+      </canvas>
+      <div id="overlay">
+        <img id="overlay-image" src="" alt="" />
+        <button class="btn-restart" onclick="restartGame()">
+          Play Again
+        </button>
+      </div>
+    </div>
+    <script>
+      const canvas = document.getElementById(&#39;canvas&#39;);
+    const ctx = canvas.getContext(&#39;2d&#39;);
+    const overlay = document.getElementById(&#39;overlay&#39;);
+    const overlayImage = document.getElementById(&#39;overlay-image&#39;);
+    const startOverlay = document.getElementById(&#39;start-overlay&#39;);
+
+    // Audio setup
+    const bgMusic = new Audio(&#39;/Games/Modifly/fly.mp3&#39;);
+    const overSound = new Audio(&#39;/Games/Modifly/over.mp3&#39;);
+    const wonSound = new Audio(&#39;/Games/Modifly/won.mp3&#39;);
+    
+    bgMusic.loop = true;
+    bgMusic.volume = 0.4;
+    overSound.volume = 0.6;
+    wonSound.volume = 0.6;
+
+    // Load images
+    const backgroundImg = new Image();
+    const pipeTopImg = new Image();
+    const pipeBottomImg = new Image();
+    const heroImg = new Image();
+    const trophyImg = new Image();
+
+    backgroundImg.src = &#34;/Games/Modifly/background.png&#34;;
+    pipeTopImg.src = &#34;/Games/Modifly/pillar-1.png&#34;;
+    pipeBottomImg.src = &#34;/Games/Modifly/pillar-2.png&#34;;
+    heroImg.src = &#34;/Games/Modifly/jetpack.png&#34;;
+    trophyImg.src = &#34;/Games/Modifly/trophy.png&#34;;
+
+    let gamePlaying = false;
+    let gameStarted = false;
+    let hasWon = false;
+    let showTrophy = false;
+    const gravity = 0.5;
+    const speed = 2.2;
+    const size = [80, 90];
+    const jump = -8.5;
+    const cTenth = (canvas.width / 10);
+    const winScore = 15;
+
+    let index = 0,
+        flight,
+        flyHeight,
+        currentScore,
+        pipes,
+        particles = [],
+        trophyReached = false,
+        trophyPosition = { x: 0, y: 0 },
+        winTimer = null;
+
+    const pipeWidth = 90;
+    const pipeGap = 280;
+
+    const pipeLoc = () =&gt; Math.random() * (canvas.height - pipeGap - 200) + 80;
+
+    const setup = () =&gt; {
+      currentScore = 0;
+      flight = jump;
+      flyHeight = (canvas.height / 2) - (size[1] / 2);
+      pipes = Array(3).fill().map((_, i) =&gt; [
+        canvas.width + i * (pipeGap + pipeWidth),
+        pipeLoc()
+      ]);
+      particles = [];
+      hasWon = false;
+      trophyReached = false;
+      showTrophy = false;
+      trophyPosition = { x: 0, y: 0 };
+      overlay.classList.remove(&#39;show&#39;);
+      if (winTimer) {
+        clearTimeout(winTimer);
+        winTimer = null;
+      }
+    };
+
+    // Smoke particle system
+    class SmokeParticle {
+      constructor(x, y) {
+        this.x = x + (Math.random() - 0.5) * 10;
+        this.y = y;
+        this.radius = Math.random() * 3 + 3;
+        this.alpha = 1;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = -(Math.random() * 0.3 + 0.2);
+        this.drift = Math.random() * 0.02 + 0.01;
+        this.life = 1;
+        this.maxLife = Math.random() * 80 + 60;
+        this.age = 0;
+        this.wobble = Math.random() * Math.PI * 2;
+      }
+
+      update() {
+        this.age++;
+        this.wobble += 0.05;
+        this.y += this.speedY;
+        this.x += this.speedX + Math.sin(this.wobble) * this.drift;
+        this.speedY *= 0.99;
+        this.life = 1 - (this.age / this.maxLife);
+        this.alpha = Math.max(0, this.life);
+        this.radius += 0.02;
+      }
+
+      draw() {
+        if (this.alpha &lt;= 0) return;
+        
+        const gradient = ctx.createRadialGradient(
+          this.x, this.y, 0,
+          this.x, this.y, this.radius
+        );
+        
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${this.alpha * 0.9})`);
+        gradient.addColorStop(0.4, `rgba(250, 250, 255, ${this.alpha * 0.6})`);
+        gradient.addColorStop(0.7, `rgba(240, 240, 250, ${this.alpha * 0.3})`);
+        gradient.addColorStop(1, `rgba(230, 230, 240, 0)`);
+        
+        ctx.save();
+        ctx.globalCompositeOperation = &#39;screen&#39;;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius * 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha * 0.1})`;
+        ctx.fill();
+        ctx.restore();
+        
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+      }
+
+      isDead() {
+        return this.age &gt;= this.maxLife || this.alpha &lt;= 0;
+      }
+    }
+
+    function createSmokeParticles(x, y) {
+      if (particles.length &lt; 3 &amp;&amp; Math.random() &lt; 0.3) {
+        particles.push(new SmokeParticle(x, y));
+      }
+    }
+
+    function updateAndDrawParticles() {
+      for (let i = particles.length - 1; i &gt;= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].isDead()) {
+          particles.splice(i, 1);
+        }
+      }
+    }
+
+    const showEndScreen = (type) =&gt; {
+      gamePlaying = false;
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
+      
+      if (type === &#39;won&#39;) {
+        overlayImage.src = &#39;/Games/Modifly/won.png&#39;;
+        wonSound.play().catch(e =&gt; console.log(&#39;Won sound failed:&#39;, e));
+      } else {
+        overlayImage.src = &#39;/Games/Modifly/over.png&#39;;
+        overSound.play().catch(e =&gt; console.log(&#39;Over sound failed:&#39;, e));
+      }
+      
+      overlay.classList.add(&#39;show&#39;);
+    };
+
+    const render = () =&gt; {
+      index++;
+      
+      // Draw scrolling background
+      const bgX = -(index * (speed / 2)) % canvas.width;
+      ctx.drawImage(backgroundImg, bgX, 0, canvas.width, canvas.height);
+      ctx.drawImage(backgroundImg, bgX + canvas.width, 0, canvas.width, canvas.height);
+
+      // Draw pipes only if haven&#39;t reached win score
+      if (gamePlaying &amp;&amp; currentScore &lt; winScore) {
+        pipes.forEach(pipe =&gt; {
+          pipe[0] -= speed;
+
+          const topHeight = pipe[1];
+          const bottomY = pipe[1] + pipeGap;
+          const pillarHeight = 300;
+
+          ctx.shadowColor = &#39;rgba(0, 0, 0, 0.3)&#39;;
+          ctx.shadowBlur = 8;
+          ctx.shadowOffsetX = 4;
+          ctx.shadowOffsetY = 4;
+          
+          ctx.drawImage(pipeTopImg, pipe[0], topHeight - pillarHeight, pipeWidth, pillarHeight);
+          ctx.drawImage(pipeBottomImg, pipe[0], bottomY, pipeWidth, pillarHeight);
+          
+          ctx.shadowColor = &#39;transparent&#39;;
+          ctx.shadowBlur = 0;
+
+          if (pipe[0] &lt;= -pipeWidth) {
+            currentScore++;
+            
+            // Check if reached win score
+            if (currentScore &gt;= winScore) {
+              // Clear all pipes immediately
+              pipes = [];
+              // Show trophy
+              showTrophy = true;
+              trophyPosition.x = canvas.width / 2;
+              trophyPosition.y = canvas.height / 2;
+              
+              // Auto-win after 3 seconds
+              if (!winTimer) {
+                winTimer = setTimeout(() =&gt; {
+                  hasWon = true;
+                  gamePlaying = false;
+                  showEndScreen(&#39;won&#39;);
+                }, 3000);
+              }
+              return;
+            }
+            
+            // Spawn new pipe only if below win score
+            pipes = [
+              ...pipes.slice(1),
+              [pipes[pipes.length - 1][0] + pipeGap + pipeWidth, pipeLoc()],
+            ];
+          }
+
+          // Collision detection
+          const hitPipe =
+            pipe[0] &lt;= cTenth + size[0] - 10 &amp;&amp;
+            pipe[0] + pipeWidth &gt;= cTenth + 10 &amp;&amp;
+            (flyHeight &lt;= topHeight + 5 || flyHeight + size[1] &gt;= bottomY - 5);
+
+          if (hitPipe) {
+            showEndScreen(&#39;over&#39;);
+          }
+        });
+      }
+      
+      // Trophy appears after 15 points
+      if (showTrophy &amp;&amp; !hasWon) {
+        // Draw trophy at FIXED center position with bounce
+        const bounce = Math.sin(index * 0.08) * 15;
+        const trophySize = 100;
+        
+        ctx.save();
+        ctx.shadowColor = &#39;rgba(255, 215, 0, 0.8)&#39;;
+        ctx.shadowBlur = 30;
+        
+        const trophyDrawX = trophyPosition.x - trophySize / 2;
+        const trophyDrawY = trophyPosition.y - trophySize / 2 + bounce;
+        
+        ctx.drawImage(
+          trophyImg, 
+          trophyDrawX, 
+          trophyDrawY, 
+          trophySize, 
+          trophySize
+        );
+        ctx.restore();
+      }
+
+      // Smoke effect
+      if (gamePlaying &amp;&amp; !hasWon) {
+        createSmokeParticles(cTenth + size[0] / 2 - 10, flyHeight + size[1] - 15);
+      }
+      updateAndDrawParticles();
+
+      // Draw hero
+      let angle = Math.max(Math.min(flight * -0.05, 0.4), -0.4);
+
+      ctx.save();
+      ctx.shadowColor = &#39;rgba(0, 0, 0, 0.4)&#39;;
+      ctx.shadowBlur = 10;
+      ctx.shadowOffsetX = 3;
+      ctx.shadowOffsetY = 3;
+      
+      ctx.translate(cTenth + size[0] / 2, flyHeight + size[1] / 2);
+      ctx.rotate(angle);
+      ctx.drawImage(heroImg, -size[0] / 2, -size[1] / 2, size[0], size[1]);
+      ctx.restore();
+
+      if (gamePlaying &amp;&amp; !hasWon) {
+        flight += gravity;
+        flyHeight = Math.min(flyHeight + flight, canvas.height - size[1]);
+        
+        if (flyHeight &gt;= canvas.height - size[1] - 5) {
+          showEndScreen(&#39;over&#39;);
+        }
+        
+        if (flyHeight &lt;= 0) {
+          flyHeight = 0;
+          flight = 0;
+        }
+      } else if (!gameStarted) {
+        flyHeight = (canvas.height / 2) - (size[1] / 2);
+        
+        ctx.fillStyle = &#34;rgba(0, 0, 0, 0.7)&#34;;
+        ctx.fillRect(0, canvas.height / 2 - 100, canvas.width, 200);
+        
+        ctx.fillStyle = &#34;#fff&#34;;
+        ctx.font = &#34;bold 18px &#39;Press Start 2P&#39;&#34;;
+        ctx.textAlign = &#39;center&#39;;
+        ctx.shadowColor = &#39;#000&#39;;
+        ctx.shadowBlur = 4;
+        ctx.fillText(&#39;Click to Play&#39;, canvas.width / 2, canvas.height / 2 - 20);
+        
+        ctx.font = &#34;12px &#39;Press Start 2P&#39;&#34;;
+        ctx.fillText(`Reach ${winScore} points to win!`, canvas.width / 2, canvas.height / 2 + 30);
+        
+        const pulse = Math.sin(index * 0.05) * 0.3 + 0.7;
+        ctx.globalAlpha = pulse;
+        ctx.fillText(&#39; TAP &#39;, canvas.width / 2, canvas.height / 2 + 70);
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+      }
+
+      document.getElementById(&#39;currentScore&#39;).innerText = `Score: ${currentScore} ${hasWon ? &#39;&#39; : &#39;&#39;}`;
+
+      requestAnimationFrame(render);
+    };
+
+    function startGame() {
+      startOverlay.classList.add(&#39;hide&#39;);
+      setTimeout(() =&gt; {
+        startOverlay.style.display = &#39;none&#39;;
+      }, 500);
+    }
+
+    function restartGame() {
+      setup();
+      gameStarted = false;
+      gamePlaying = false;
+    }
+
+    setup();
+    backgroundImg.onload = () =&gt; render();
+
+    const handleInput = (e) =&gt; {
+      e.preventDefault();
+      
+      if (!gameStarted) {
+        gameStarted = true;
+        gamePlaying = true;
+        bgMusic.play().catch(e =&gt; console.log(&#39;Audio play failed:&#39;, e));
+      }
+      
+      if (gamePlaying &amp;&amp; !hasWon) {
+        flight = jump;
+      }
+    };
+
+    canvas.addEventListener(&#39;click&#39;, handleInput);
+    canvas.addEventListener(&#39;touchstart&#39;, handleInput, { passive: false });
+
+    document.body.addEventListener(&#39;touchmove&#39;, (e) =&gt; {
+      e.preventDefault();
+    }, { passive: false });
+    
+    document.body.addEventListener(&#39;touchstart&#39;, (e) =&gt; {
+      if (e.touches.length &gt; 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+    </script>
+  </body>
+</html>
