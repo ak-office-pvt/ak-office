@@ -1,0 +1,795 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Live Match - Bingewave Sports</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: rgba(0, 0, 0, 0.3);
+            --accent-primary: #a600ff;
+            --accent-secondary: #ff007f;
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0f0c29;
+            background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            background: linear-gradient(135deg, #0a0510, #220b34, #0a0510);
+            color: var(--text-main);
+            text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+            margin: 0;
+            overflow-y: auto;
+            background-attachment: fixed;
+            box-sizing: border-box;
+        }
+
+        /* App Header */
+        .app-header {
+            position: sticky;
+            top: 10px;
+            z-index: 1200;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            margin-bottom: 15px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(20, 15, 30, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        h1 {
+            font-size: clamp(1.2rem, 5vw, 2.5rem);
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(90deg, #c35bfb, #ff007f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 20px rgba(195, 91, 251, 0.3);
+            letter-spacing: -1px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+        }
+
+        .header-spacer {
+            width: 46px;
+        }
+
+        /* Player Wrapper */
+        .player-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px var(--glass-shadow);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .match-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .match-title img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-live {
+            background: rgba(255, 50, 50, 0.15);
+            color: #ff4d4d;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 77, 77, 0.4);
+            box-shadow: 0 0 15px rgba(255, 50, 50, 0.3);
+            animation: pulse-red 2s infinite;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-live::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #ff4d4d;
+            border-radius: 50%;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 5px rgba(255, 77, 77, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
+            }
+
+            100% {
+                box-shadow: 0 0 5px rgba(255, 77, 77, 0.2);
+            }
+        }
+
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 16px;
+            padding: 3px;
+            box-sizing: border-box;
+            background: conic-gradient(from var(--angle), var(--color1, #a600ff), var(--color2, #ff007f), var(--color3, #004B8D), var(--color4, #FFD141), var(--color1, #a600ff));
+            animation: spin-border 8s linear infinite alternate;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .iframe-container::after {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: 18px;
+            background: inherit;
+            filter: blur(12px);
+            opacity: 0.8;
+            z-index: -1;
+        }
+
+        @keyframes spin-border {
+            0% { --angle: 0deg; }
+            100% { --angle: -360deg; }
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 14px;
+            display: block;
+            background: #000;
+            position: relative;
+            z-index: 10;
+        }
+
+        .channels-header {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin: 15px 0 5px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .channel-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .channel-dropdown {
+            width: 100%;
+            background: rgba(20, 15, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-main);
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            appearance: none;
+            outline: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position-x: calc(100% - 15px);
+            background-position-y: center;
+        }
+
+        .channel-dropdown:hover,
+        .channel-dropdown:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 15px rgba(166, 0, 255, 0.3);
+        }
+
+        .channel-dropdown option {
+            background: #1a1525;
+            color: #fff;
+            padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .match-info-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .match-title {
+                font-size: 1.4rem !important;
+            }
+        }
+
+        .match-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .info-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .ad-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--glass-bg);
+            display: flex;
+        }
+
+        .ad-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .ad-link {
+            display: block;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .ad-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent-secondary);
+            animation: spin 1s ease-in-out infinite;
+            margin: 60px auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            background: rgba(255, 50, 50, 0.1);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            margin: 20px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Popup Notification */
+        #popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            animation: fadeIn 0.4s forwards ease-out;
+        }
+
+        .popup-content {
+            background: rgba(20, 15, 30, 0.7);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 360px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            transform: scale(0.9);
+            animation: popIn 0.4s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .popup-content::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        @keyframes popIn {
+            to { transform: scale(1); }
+        }
+
+        .popup-content h2 {
+            margin: 0 0 15px;
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-shadow: 0 0 15px rgba(195, 91, 251, 0.4);
+        }
+
+        .popup-content p {
+            margin: 0 0 25px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .popup-content button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .popup-content .join-btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(166, 0, 255, 0.3);
+        }
+
+        .popup-content .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(166, 0, 255, 0.5);
+        }
+
+        .popup-content .close-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .popup-content .close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="app-header">
+        <a href="/" class="back-btn" aria-label="Go Back">
+            <svg viewBox="0 0 24 24">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+        </a>
+        <h1>TATA IPL 2026</h1>
+        <div class="header-spacer"></div>
+    </header>
+
+    <div class="player-wrapper" id="player-wrapper">
+        <div class="loader" id="loader"></div>
+        <div id="content" style="display: none;">
+            <!-- Player at the extreme top to avoid scrolling -->
+            <div class="iframe-container">
+                <iframe id="video-frame" allow="encrypted-media"
+                    sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation"
+                    allowfullscreen="true"></iframe>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                <span class="status-live">Live</span>
+                <h2 class="match-title" id="match-title">Loading Match...</h2>
+            </div>
+
+            <div class="channels-header" style="margin-top: 15px;">Available Channels</div>
+            <select id="channel-dropdown" class="channel-dropdown">
+                <!-- Options appended here dynamically -->
+            </select>
+
+            <div id="ad-container" style="margin-top: 5px;">
+                <!-- Ad dynamically inserted -->
+            </div>
+
+            <!-- Match Information -->
+            <div class="match-info-grid" id="match-info-grid" style="margin-top: 15px;">
+                <!-- Info cards go here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        let matchId = urlParams.get('id');
+
+        async function loadMatchDetails() {
+            const wrapper = document.getElementById('player-wrapper');
+            const loader = document.getElementById('loader');
+            const content = document.getElementById('content');
+
+            try {
+                // Fetch matches JSON with empty cache-busting
+                const jsonResponse = await fetch("https://binge-api.vercel.app/ipl.json?t=" + new Date().getTime());
+                const data = await jsonResponse.json();
+
+                // If no matching ID found, show error
+                if (!matchId) {
+                    wrapper.innerHTML = '<div class="error-message">Invalid match link.</div>';
+                    return;
+                }
+
+                const match = data.matches.find(m => m.id === matchId);
+                const flags = data.flags;
+
+                if (!match) {
+                    wrapper.innerHTML = '<div class="error-message">Match not found or has ended.</div>';
+                    return;
+                }
+
+                const getTeamLogo = (teamName) => {
+                    const team = flags.find(flag => flag.name === teamName);
+                    return team ? team.img : "";
+                };
+
+                const matchChannels = data.channels || [];
+
+                // Fetch Channels TXT with cache-busting
+                const txtResponse = await fetch("https://nothing18.pages.dev/ch-list.txt?t=" + new Date().getTime());
+                const txtData = await txtResponse.text();
+
+                const channelsData = [];
+                const lines = txtData.split(/\r?\n/);
+                for (let line of lines) {
+                    line = line.trim();
+                    if (line.startsWith('#ch')) {
+                        const nameMatch = line.match(/name="([^"]+)"/);
+                        const idMatch = line.match(/id="([^"]+)"/);
+                        const urlMatch = line.match(/url="([^"]+)"/);
+
+                        if (nameMatch && idMatch && urlMatch) {
+                            channelsData.push({
+                                name: nameMatch[1],
+                                id: idMatch[1],
+                                url: urlMatch[1]
+                            });
+                        }
+                    }
+                }
+
+                // Filter matching channels, keeping the exact order specified in the JSON
+                const availableChannels = [];
+                for (let chId of matchChannels) {
+                    const foundCh = channelsData.find(c => c.id === chId);
+                    if (foundCh) {
+                        availableChannels.push(foundCh);
+                    }
+                }
+
+                if (availableChannels.length === 0) {
+                    wrapper.innerHTML = '<div class="error-message">Streaming links are not available for this match right now.</div>';
+                    return;
+                // Render match details and teams
+                const team1Logo = getTeamLogo(match.team1);
+                const team2Logo = getTeamLogo(match.team2);
+
+                document.getElementById('match-title').innerHTML = `
+                    <img src="${team1Logo}" alt="${match.team1}" onerror="this.style.display='none'">
+                    ${match.team1} vs ${match.team2}
+                    <img src="${team2Logo}" alt="${match.team2}" onerror="this.style.display='none'">
+                `;
+
+                // Select first channel by default
+                const iframe = document.getElementById('video-frame');
+                iframe.src = availableChannels[0].url;
+
+                // Render channel selector
+                const dropdown = document.getElementById('channel-dropdown');
+                availableChannels.forEach((ch, index) => {
+                    const option = document.createElement('option');
+                    option.value = ch.url;
+                    option.text = ch.name;
+                    if (index === 0) option.selected = true;
+                    dropdown.appendChild(option);
+                });
+
+                dropdown.addEventListener('change', (e) => {
+                    iframe.src = e.target.value;
+                });
+
+                // Render Ad
+                if (match.poster && match.url) {
+                    const adContainer = document.getElementById('ad-container');
+                    adContainer.className = 'ad-container';
+                    adContainer.innerHTML = `
+                        <a href="${match.url}" target="_blank" class="ad-link">
+                            <img src="${match.poster}" alt="Advertisement" class="ad-banner">
+                        </a>
+                    `;
+                }
+
+                // Format Time function (+ 1hr 30 mins)
+                function formatTimeAdd90Mins(timeStr) {
+                    if (!timeStr) return "";
+                    let [hours, minutes] = timeStr.split(':').map(Number);
+                    minutes += 30;
+                    hours += 1 + Math.floor(minutes / 60);
+                    minutes = minutes % 60;
+                    hours = hours % 24;
+                    const ampm = hours >= 12 ? 'PM' : 'AM';
+                    const h = hours % 12 || 12;
+                    const m = minutes.toString().padStart(2, '0');
+                    return `${h}:${m} ${ampm}`;
+                }
+
+                // Team Brand Colors
+                const teamColors = {
+                    "CSK": "linear-gradient(135deg, #F9CD05, #F15C19)",
+                    "MI": "linear-gradient(135deg, #004B8D, #FFD141)",
+                    "RCB": "linear-gradient(135deg, #EC1C24, #2B2A29)",
+                    "KKR": "linear-gradient(135deg, #3A225D, #F2C028)",
+                    "SRH": "linear-gradient(135deg, #FF822A, #000000)",
+                    "GT": "linear-gradient(135deg, #0B4973, #D1AB3E)",
+                    "LSG": "linear-gradient(135deg, #D71920, #003B7A, #D1AB3E)",
+                    "DC": "linear-gradient(135deg, #004C93, #F32735)",
+                    "PBKS": "linear-gradient(135deg, #D71920, #A7A9AC)",
+                    "RR": "linear-gradient(135deg, #EA1A85, #001D48)"
+                };
+
+                const rawTeamColors = {
+                    "CSK": ["#F9CD05", "#F15C19"],
+                    "MI": ["#004B8D", "#FFD141"],
+                    "RCB": ["#EC1C24", "#2B2A29"],
+                    "KKR": ["#3A225D", "#F2C028"],
+                    "SRH": ["#FF822A", "#000000"],
+                    "GT": ["#0B4973", "#D1AB3E"],
+                    "LSG": ["#D71920", "#003B7A"],
+                    "DC": ["#004C93", "#F32735"],
+                    "PBKS": ["#D71920", "#A7A9AC"],
+                    "RR": ["#EA1A85", "#001D48"]
+                };
+
+                const t1Raw = rawTeamColors[match.team1] || ["#a600ff", "#ff007f"];
+                const t2Raw = rawTeamColors[match.team2] || ["#004B8D", "#FFD141"];
+                
+                const iframeContainer = document.querySelector('.iframe-container');
+                if (iframeContainer) {
+                    iframeContainer.style.setProperty('--color1', t1Raw[0]);
+                    iframeContainer.style.setProperty('--color2', t1Raw[1]);
+                    iframeContainer.style.setProperty('--color3', t2Raw[0]);
+                    iframeContainer.style.setProperty('--color4', t2Raw[1]);
+                }
+
+                const hTeamBg = teamColors[match.team1];
+                const aTeamBg = teamColors[match.team2];
+
+                const brandedStyle1 = hTeamBg ? `background: ${hTeamBg}; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2);` : "";
+                const brandedStyle2 = aTeamBg ? `background: ${aTeamBg}; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2);` : "";
+                const titleLbl1 = hTeamBg ? `color: rgba(255,255,255,0.9); text-shadow: 0 1px 3px rgba(0,0,0,0.4);` : "";
+                const titleVal1 = hTeamBg ? `text-shadow: 0 1px 3px rgba(0,0,0,0.4); font-size: 16px;` : "";
+                const titleLbl2 = aTeamBg ? `color: rgba(255,255,255,0.9); text-shadow: 0 1px 3px rgba(0,0,0,0.4);` : "";
+                const titleVal2 = aTeamBg ? `text-shadow: 0 1px 3px rgba(0,0,0,0.4); font-size: 16px;` : "";
+
+                // Render Match Info
+                const infoGrid = document.getElementById('match-info-grid');
+                infoGrid.innerHTML = `
+                    <div class="info-card">
+                        <span class="info-label">Date</span>
+                        <span class="info-value">${match.date}</span>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-label">Match No.</span>
+                        <span class="info-value">${match.match_no} of 74</span>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-label">Start Time</span>
+                        <span class="info-value">${formatTimeAdd90Mins(match.start_time)}</span>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-label">Venue</span>
+                        <span class="info-value">${match.venue}</span>
+                    </div>
+                    <div class="info-card" style="${brandedStyle1}">
+                        <span class="info-label" style="${titleLbl1}">Home Team</span>
+                        <span class="info-value" style="${titleVal1}">${match.team1}</span>
+                    </div>
+                    <div class="info-card" style="${brandedStyle2}">
+                        <span class="info-label" style="${titleLbl2}">Away Team</span>
+                        <span class="info-value" style="${titleVal2}">${match.team2}</span>
+                    </div>
+                `;
+
+                loader.style.display = 'none';
+                content.style.display = 'block';
+
+            } catch (error) {
+                console.error("Error loading match data:", error);
+                wrapper.innerHTML = `<div class="error-message">Failed to connect to servers. Please check your internet connection and try again.</div>`;
+            }
+        }
+
+        loadMatchDetails();
+
+        // Close telegram popup function
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            popup.style.opacity = '0';
+            popup.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 300);
+        }
+    </script>
+    
+    <!-- Telegram Popup -->
+    <div id="popup">
+        <div class="popup-content">
+            <h2>Support Us!</h2>
+            <p>Join our Telegram channel <strong>@axtream_bingewav</strong> for more exclusive updates.</p>
+            <button class="join-btn" onclick="window.open('https://t.me/axtream_bingewav', '_blank')">Join Telegram Now</button>
+            <button class="close-btn" onclick="closePopup()">I'm Already Joined</button>
+        </div>
+    </div>
+</body>
+
+</html>
