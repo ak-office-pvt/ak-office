@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -332,6 +331,304 @@
         }
 
         .info-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .ad-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--glass-bg);
+            display: flex;
+        }
+
+        .ad-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .ad-link {
+            display: block;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .ad-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent-secondary);
+            animation: spin 1s ease-in-out infinite;
+            margin: 60px auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            background: rgba(255, 50, 50, 0.1);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            margin: 20px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Popup Notification */
+        #popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            animation: fadeIn 0.4s forwards ease-out;
+        }
+
+        .popup-content {
+            background: rgba(20, 15, 30, 0.7);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 360px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            transform: scale(0.9);
+            animation: popIn 0.4s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .popup-content::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        @keyframes popIn {
+            to { transform: scale(1); }
+        }
+
+        .popup-content h2 {
+            margin: 0 0 15px;
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-shadow: 0 0 15px rgba(195, 91, 251, 0.4);
+        }
+
+        .popup-content p {
+            margin: 0 0 25px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .popup-content button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .popup-content .join-btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(166, 0, 255, 0.3);
+        }
+
+        .popup-content .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(166, 0, 255, 0.5);
+        }
+
+        .popup-content .close-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .popup-content .close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="app-header">
+        <a href="/" class="back-btn" aria-label="Go Back">
+            <svg viewBox="0 0 24 24">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+        </a>
+        <h1>TATA IPL 2026</h1>
+        <div class="header-spacer"></div>
+    </header>
+
+    <div class="player-wrapper" id="player-wrapper">
+        <div class="loader" id="loader"></div>
+        <div id="content" style="display: none;">
+            <!-- Player at the extreme top to avoid scrolling -->
+            <div class="iframe-container">
+                <iframe id="video-frame" allow="encrypted-media"
+                    sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation"
+                    allowfullscreen="true"></iframe>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                <span class="status-live">Live</span>
+                <h2 class="match-title" id="match-title">Loading Match...</h2>
+            </div>
+
+            <div class="channels-header" style="margin-top: 15px;">Available Channels</div>
+            <select id="channel-dropdown" class="channel-dropdown">
+                <!-- Options appended here dynamically -->
+            </select>
+
+            <div id="ad-container" style="margin-top: 5px;">
+                <!-- Ad dynamically inserted -->
+            </div>
+
+            <!-- Match Information -->
+            <div class="match-info-grid" id="match-info-grid" style="margin-top: 15px;">
+                <!-- Info cards go here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        let matchId = urlParams.get('id');
+
+        async function loadMatchDetails() {
+            const wrapper = document.getElementById('player-wrapper');
+            const loader = document.getElementById('loader');
+            const content = document.getElementById('content');
+
+            try {
+                // Fetch matches JSON with empty cache-busting
+                const jsonResponse = await fetch("https://binge-api.vercel.app/ipl.json?t=" + new Date().getTime());
+                const data = await jsonResponse.json();
+
+                // If no matching ID found, show error
+                if (!matchId) {
+                    wrapper.innerHTML = '<div class="error-message">Invalid match link.</div>';
+                    return;
+                }
+
+                const match = data.matches.find(m => m.id === matchId);
+                const flags = data.flags;
+
+                if (!match) {
+                    wrapper.innerHTML = '<div class="error-message">Match not found or has ended.</div>';
+                    return;
+                }
+
+                const getTeamLogo = (teamName) => {
+                    const team = flags.find(flag => flag.name === teamName);
+                    return team ? team.img : "";
+                };
+
+                const matchChannels = data.channels || [];
+
+                // Fetch Channels TXT with cache-busting
+                const txtResponse = await fetch("https://nothing18.pages.dev/ch-list.txt?t=" + new Date().getTime());
+                const txtData = await txtResponse.text();
+
+                const channelsData = [];
+                const lines = txtData.split(/\r?\n/);
+                for (let line of lines) {
+                    line = line.trim();
+                    if (line.startsWith('#ch')) {
+                        const nameMatch = line.match(/name="([^"]+)"/);
+                        const idMatch = line.match(/id="([^"]+)"/);
+                        const urlMatch = line.match(/url="([^"]+)"/);
+
+                        if (nameMatch && idMatch && urlMatch) {
+                            channelsData.push({
+                                name: nameMatch[1],
+                                id: idMatch[1],
+                                url: urlMatch[1]
+                            });
+                        }
+                    }
+                }
+
+                // Filter matching channels, keeping the exact order specified in the JSON
+                const availableChannels = [];
+                for (let chId of matchChannels) {
+                    const foundCh = channelsData.find(c => c.id === chId);
+                    if (foundCh) {
+                        availableChannels.push(foundCh);
+                    }
+                }
+
+                if (availableChannels.length === 0) {
+                    wrapper.innerHTML = '<div class="error-message">Streaming links are not available for this match right now.</div>';
+                    return;
+  e {
             font-size: 15px;
             font-weight: 600;
             color: #fff;
