@@ -120,7 +120,7 @@ og_image: https://i3.ytimg.com/vi/y1Qa1-ly1Pw/hqdefault.jpg
 
         <input type="text"
                id="memberId"
-               placeholder="Member ID डालें">
+               placeholder="Enter Member ID">
 
         <button onclick="generateLink()">
             Generate Link
@@ -138,7 +138,7 @@ function generateLink(){
     var memberId = document.getElementById("memberId").value.trim();
 
     if(memberId===""){
-        alert("Member ID डालें");
+        alert("Enter Member ID");
         return;
     }
 
