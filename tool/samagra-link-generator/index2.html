@@ -1,0 +1,165 @@
+---
+layout: default
+title: Samagra Link Generator
+description: "Avdhesh Kushwah Gallery"
+permalink: /tool/samagra-link-generator
+og_image: https://i.ibb.co/3y005YYX/gallery-icon.png
+# Recommended resolution for og_image: 1200x630 pixels, PNG/JPEG
+---
+
+
+<!----------- MAIN CONTENT ----------->
+
+
+<style>
+
+/* ===== Samagra Section (Independent CSS) ===== */
+
+.samagra-page{
+    background:#COLOR-CODE;
+    padding:25px 15px;
+    color:#ffffff;
+    font-family:Arial, sans-serif;
+}
+
+.samagra-page *{
+    box-sizing:border-box;
+}
+
+.samagra-page .samagra-container{
+    width:100%;
+    max-width:450px;
+    margin:20px auto;
+    background:#1e293b;
+    padding:25px;
+    border-radius:16px;
+    border:1px solid #334155;
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+}
+
+.samagra-page .samagra-title{
+    text-align:center;
+    color:#ffffff;
+    margin-bottom:20px;
+    font-size:24px;
+    font-weight:bold;
+}
+
+.samagra-page label{
+    display:block;
+    margin-bottom:8px;
+    color:#cbd5e1;
+    font-size:14px;
+}
+
+.samagra-page input{
+    width:100%;
+    padding:12px;
+    border:1px solid #475569;
+    border-radius:10px;
+    background:#0f172a;
+    color:#ffffff;
+    font-size:16px;
+    outline:none;
+}
+
+.samagra-page input:focus{
+    border-color:#22c55e;
+    box-shadow:0 0 0 3px rgba(34,197,94,.15);
+}
+
+.samagra-page button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:10px;
+    background:#00bd50;
+    color:#ffffff;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.samagra-page button:hover{
+    background:#118c3e;
+}
+
+.samagra-page .result{
+    margin-top:15px;
+    background:#0f172a;
+    border:1px solid #334155;
+    padding:15px;
+    border-radius:10px;
+    color:#ffffff;
+    word-break:break-all;
+}
+
+.samagra-page .result a{
+    color:#38bdf8;
+    text-decoration:none;
+}
+
+.samagra-page .result a:hover{
+    text-decoration:underline;
+}
+
+</style>
+
+
+<div class="samagra-page">
+
+    <div class="samagra-container">
+
+        <div class="samagra-title">
+            Samagra Link Generator
+        </div>
+
+        <label>Samagra Member ID</label>
+
+        <input type="text"
+               id="memberId"
+               placeholder="Member ID डालें">
+
+        <button onclick="generateLink()">
+            Generate Link
+        </button>
+
+        <div class="result" id="output"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+function generateLink(){
+    var memberId = document.getElementById("memberId").value.trim();
+
+    if(memberId===""){
+        alert("Member ID डालें");
+        return;
+    }
+
+    var data = {
+        FamilyId: 23482253,
+        samagraid: Number(memberId),
+        mobileno: "9039287237"
+    };
+
+    var jsonStr = JSON.stringify(data);
+    var encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+
+    var finalLink =
+    "https://samagra.gov.in/Citizen/RFC/ChangRequestLogin.aspx?R="
+    + encoded +
+    "#submenu7";
+
+    document.getElementById("output").innerHTML =
+    "<b>Generated Link:</b><br><br><a href='"+finalLink+
+    "' target='_blank'>"+finalLink+"</a>";
+}
+</script>
+
+  
