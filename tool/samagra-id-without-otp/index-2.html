@@ -29,51 +29,55 @@ og_image: https://i.ibb.co/gZ90w63c/samagra.png
 .samagra-page .samagra-container{
     width:92%;
     max-width:450px;
-    margin:20px auto;
+    margin:15px auto;
     background:#1e293b;
     padding:25px;
-    border-radius:16px;
+    border-radius:20px;
     border:1px solid #334155;
-    box-shadow:0 10px 25px rgba(0,0,0,.35);
+    box-shadow:0 15px 35px rgba(0,0,0,.40);
 }
 
 .samagra-page .samagra-title{
     text-align:center;
     color:#ffffff;
-    margin-bottom:20px;
-    font-size:20px;
+    margin-bottom:25px;
+    font-size:17px;
     font-weight:bold;
 }
 
 .samagra-page label{
     display:block;
-    margin-bottom:8px;
-    color:#cbd5e1;
+    margin-bottom:10px;
+    color:#e2e8f0;
     font-size:14px;
 }
 
 .samagra-page input{
     width:100%;
-    padding:12px;
+    padding:14px;
     border:1px solid #475569;
-    border-radius:10px;
+    border-radius:14px;
     background:#0f172a;
     color:#ffffff;
     font-size:16px;
     outline:none;
 }
 
+.samagra-page input::placeholder{
+    color:#8a8a8a;
+}
+
 .samagra-page input:focus{
-    border-color:#22c55e;
-    box-shadow:0 0 0 3px rgba(34,197,94,.15);
+    border-color:#00bd50;
+    box-shadow:0 0 0 3px rgba(0,189,80,.15);
 }
 
 .samagra-page button{
     width:100%;
-    padding:12px;
-    margin-top:15px;
+    padding:14px;
+    margin-top:20px;
     border:none;
-    border-radius:10px;
+    border-radius:14px;
     background:#00bd50;
     color:#ffffff;
     font-size:16px;
@@ -86,12 +90,15 @@ og_image: https://i.ibb.co/gZ90w63c/samagra.png
     background:#118c3e;
 }
 
+/* Result Box */
+
 .samagra-page .result{
-    margin-top:15px;
-    background:#0f172a;
+    display:none;
+    margin-top:20px;
+    background:#171e2e;
     border:1px solid #334155;
     padding:15px;
-    border-radius:10px;
+    border-radius:14px;
     color:#ffffff;
     word-break:break-all;
 }
@@ -105,6 +112,24 @@ og_image: https://i.ibb.co/gZ90w63c/samagra.png
     text-decoration:underline;
 }
 
+.find-btn{
+    padding:10px;
+    margin-top:2px;
+    margin-bottom:22px;
+    border:1px solid #8f8f8f;
+    border-radius:15px;
+    background:#1a33ad;
+    color:#ffffff;
+    font-size:12px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.find-btn:hover{
+    background:#1a33ad;
+}
+
 </style>
 
 
@@ -113,13 +138,15 @@ og_image: https://i.ibb.co/gZ90w63c/samagra.png
     <div class="samagra-container">
 
         <div class="samagra-title">
-            Samagra ID without OTP </div>
+            Samagra ID without OTP
+        </div>
 
         <label>Samagra Member ID</label>
 
-        <input type="text"
-               id="memberId"
-               placeholder="Enter Member ID">
+        <input
+            type="text"
+            id="memberId"
+            placeholder="Enter Correct Member ID">
 
         <button onclick="generateLink()">
             Generate Link
@@ -131,13 +158,20 @@ og_image: https://i.ibb.co/gZ90w63c/samagra.png
 
 </div>
 
+<center><button class="find-btn"
+onclick="window.open('https://samagra.gov.in/Public/Dashboard/Search_Family_Member.aspx?s=s','_blank');">
+    Find Member ID
+</button></center>
+
+
 
 <script>
 function generateLink(){
+
     var memberId = document.getElementById("memberId").value.trim();
 
     if(memberId===""){
-        alert("Enter Member ID");
+        alert("Enter Correct Member ID");
         return;
     }
 
@@ -155,9 +189,13 @@ function generateLink(){
     + encoded +
     "#submenu7";
 
+    document.getElementById("output").style.display = "block";
+
     document.getElementById("output").innerHTML =
-    "<b>Generated Link:</b><br><a href='"+finalLink+
-    "' target='_blank'>"+finalLink+"</a>";
+    "<b>Generated Link:</b><br>" +
+    "<a href='" + finalLink + "' target='_blank'>" +
+    finalLink +
+    "</a>";
 }
 </script>
 
