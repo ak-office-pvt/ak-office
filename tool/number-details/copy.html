@@ -1,0 +1,248 @@
+---
+layout: default
+title: Mobile Number Details Fetcher
+description: "Get Mobile Number Details"
+permalink: /tool/number-details/
+og_image: https://static.vecteezy.com/system/resources/thumbnails/002/079/984/small_2x/phone-icon-flat-style-isolated-on-grey-background-telephone-symbol-call-illustration-sign-for-web-and-mobile-app-free-vector.jpg
+# Recommended resolution for og_image: 1200x630 pixels, PNG/JPEG
+---
+
+
+<!----------- MAIN CONTENT ----------->
+
+
+<h5 class="header3" style="text-align: center;"><b> Mobile Number Details </b><i class="fa fa-caret-down"
+      style="float:right;margin-bottom:10px;color:#999"></i></h5>
+
+
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#COLOR-CODE;
+    color:#fff;
+    padding:20px;
+}
+
+.numdata-container{
+     width:92%;
+    max-width:1000px;
+    margin:auto;
+    margin-top:10px;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.numdata-search-box{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+input{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#fff;
+    color:#000;
+}
+
+button{
+    padding:12px 20px;
+    border:none;
+    border-radius:8px;
+    background:#ddff00;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.numdata-card{
+    background:#1e293b;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:15px;
+    border:1px solid #334155;
+}
+
+.numdata-card h3{
+    color:#54fff9;
+    margin-bottom:10px;
+}
+
+.numdata-row{
+    margin:6px 0;
+}
+
+.numdata-error{
+    background:#7f1d1d;
+    padding:15px;
+    border-radius:10px;
+    white-space:pre-wrap;
+}
+
+.numdata-info{
+    margin-bottom:15px;
+    color:#94a3b8;
+}
+
+pre{
+    white-space:pre-wrap;
+    word-wrap:break-word;
+}
+</style>
+</head>
+<body>
+<br>
+
+<div class="numdata-container">
+
+    <div class="numdata-search-box">
+        <input type="text" id="mobile" placeholder="Enter Mobile Number">
+        <button onclick="searchData()">Search</button>
+    </div>
+
+    <div id="info"></div>
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+
+async function searchData(){
+
+    const mobile = document.getElementById('mobile').value.trim();
+
+    if(!mobile){
+        alert("Enter Mobile Number");
+        return;
+    }
+
+    const resultDiv = document.getElementById('result');
+    const infoDiv = document.getElementById('info');
+
+    resultDiv.innerHTML = "Details Fetching...";
+
+    try{
+
+        const apiUrl =
+            "https://ak-numdata.vercel.app/api/search?num=" +
+            encodeURIComponent(mobile);
+
+        const response = await fetch(apiUrl);
+
+        const text = await response.text();
+
+        console.log("RAW RESPONSE:", text);
+
+        let json;
+
+        try{
+            json = JSON.parse(text);
+        }catch(e){
+
+            resultDiv.innerHTML = `
+                <div class="numdata-error">
+                    Response JSON nahi hai:
+                    <pre>${text}</pre>
+                </div>
+            `;
+            return;
+        }
+
+        if(!json.success){
+
+            resultDiv.innerHTML = `
+                <div class="numdata-error">
+                    No data found
+                </div>
+            `;
+            return;
+        }
+
+        infoDiv.innerHTML = `
+            <div class="numdata-info">
+                Primary: ${json.primary || '-'}
+                |
+                Total Found: ${json.total_found || 0}
+            </div>
+        `;
+
+        let html = '';
+
+        (json.data || []).forEach(item=>{
+
+            const name = (item.name || '-')
+                .replace(/!+/g, ', ')
+                .replace(/,\s*,+/g, ',');
+
+            const fname = (item.fname || '-')
+                .replace(/!+/g, ', ')
+                .replace(/,\s*,+/g, ',');
+
+            const address = (item.address || '-')
+                .replace(/!+/g, ', ')
+                .replace(/,\s*,+/g, ',');
+
+            html += `
+            <div class="numdata-card">
+
+                <h3><b>${name}</b></h3>
+
+                <div class="numdata-row">
+                    <b>Father:</b> ${fname}
+                </div>
+
+                <div class="numdata-row">
+                    <b>Mobile:</b> ${item.mobile || '-'}
+                </div>
+
+                <div class="numdata-row">
+                    <b>Alt Numnber:</b> ${item.alt || '-'}
+                </div>
+
+                <div class="numdata-row">
+                    <b>ID:</b> ${item.id || '-'}
+                </div>
+
+                <div class="numdata-row">
+                    <b>Circle:</b> ${item.circle || '-'}
+                </div>
+
+                <div class="numdata-row">
+                    <b>Address:</b> ${address}
+                </div>
+
+            </div>
+            `;
+        });
+
+        resultDiv.innerHTML = html || "No records";
+
+    }catch(err){
+
+        console.error(err);
+
+        resultDiv.innerHTML = `
+            <div class="numdata-error">
+                ${err.message}
+            </div>
+        `;
+    }
+}
+
+</script>
