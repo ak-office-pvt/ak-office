@@ -1,27 +1,29 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="google-site-verification" content="bhC2N7AH4a-FsjeGO5pCIfFlZbEvqjN0Qo1WPcE91GQ" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta property="og:image" content="https://static.vecteezy.com/system/resources/thumbnails/002/079/984/small_2x/phone-icon-flat-style-isolated-on-grey-background-telephone-symbol-call-illustration-sign-for-web-and-mobile-app-free-vector.jpg" />
+  <meta property="og:image" content="https://i.ibb.co/3y005YYX/gallery-icon.png" />
   <meta name="theme-color" content="#161616">
-  <meta name="description" content="Get Mobile Number Details">
+  <meta name="description" content="Avdhesh Kushwah Gallery">
 
   <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="/css/wrapper.css" />
-  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <link rel="stylesheet" type="text/css" href="https://avdheshkushwah.pages.dev/css/wrapper.css" />
+  <link rel="stylesheet" type="text/css" href="https://avdheshkushwah.pages.dev/css/style.css" />
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="/js/click-heart.js"></script>
+  <script src="https://avdheshkushwah.pages.dev/js/click-heart.js"></script>
 
-  <title>Mobile Number Details Fetcher</title>
+  <title>My Gallery</title>
 </head>
 <body>
   
@@ -33,7 +35,7 @@
     <header class="header navbar-wapmash"> <button class="header__button" id="btnNav" type="button">
         <h2> </h2> <i class="material-icons">menu</i>
       </button>
-      <h2> </h2> <a href="/"><img src="/assets/img/logo.gif" alt="logo" width="140" height="37" /></a>
+      <h2> </h2> <a href="/"><img src="https://avdheshkushwah.pages.dev/assets/img/logo.gif" alt="logo" width="140" height="37" /></a>
       <h2></h2>
     </header>
   </div>
@@ -52,10 +54,9 @@
     </div>
     <div class="nav__overlay"></div>
   </nav>
-  <script src="/js/menu/list.js"></script>
+  <script src="https://avdheshkushwah.pages.dev/js/menu/list.js"></script>
   </script></noscript>
 
-      
   <!----------- MAIN CONTENT ----------->
 
 
@@ -65,6 +66,7 @@
 
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -79,10 +81,12 @@ body{
 }
 
 .numdata-container{
-     width:92%;
+    width:95%;
     max-width:1000px;
     margin:auto;
     margin-top:10px;
+    padding-left:10px;
+    padding-right:10px;
 }
 
 h1{
@@ -96,32 +100,66 @@ h1{
     margin-bottom:20px;
 }
 
-input{
+/* Input Wrapper */
+.numdata-input-wrapper{
+    position:relative;
     flex:1;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#fff;
-    color:#000;
 }
 
-button{
-    padding:12px 20px;
+input{
+    width:100%;
+    padding:11px 45px 11px 11px;
     border:none;
-    border-radius:8px;
-    background:#ddff00;
+    border-radius:15px;
+    background:#fff;
+    color:#000;
+    outline:none;
+}
+
+/* Clear Button Inside Input */
+.numdata-clear-btn{
+    position:absolute;
+    right:8px;
+    top:50%;
+    transform:translateY(-50%);
+    width:28px;
+    height:28px;
+    border:none;
+    border-radius:50%;
+    background:#d1d1d1;
+    color:#333;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    transition:0.2s;
+}
+
+.numdata-clear-btn:hover{
+    background:#cbd5e1;
+}
+
+/* Search Button */
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:15px;
+    background:#ffff00;
     cursor:pointer;
     font-weight:bold;
 }
 
 button:hover{
-    opacity:.9;
+    opacity:.7;
 }
 
 .numdata-card{
     background:#1e293b;
     padding:15px;
-    border-radius:10px;
+    border-radius:15px;
     margin-bottom:15px;
     border:1px solid #334155;
 }
@@ -138,7 +176,7 @@ button:hover{
 .numdata-error{
     background:#7f1d1d;
     padding:15px;
-    border-radius:10px;
+    border-radius:15px;
     white-space:pre-wrap;
 }
 
@@ -151,16 +189,26 @@ pre{
     white-space:pre-wrap;
     word-wrap:break-word;
 }
+
+
 </style>
 </head>
-<body>
 <br>
 
 <div class="numdata-container">
 
     <div class="numdata-search-box">
-        <input type="text" id="mobile" placeholder="Enter Mobile Number">
+
+        <div class="numdata-input-wrapper">
+            <input type="text" id="mobile" placeholder="Enter Mobile Number">
+
+            <button type="button"
+                    class="numdata-clear-btn"
+                    onclick="clearData()">✕</button>
+        </div>
+
         <button onclick="searchData()">Search</button>
+
     </div>
 
     <div id="info"></div>
@@ -169,7 +217,22 @@ pre{
 </div>
 
 <script>
+document.getElementById('mobile').addEventListener('keypress', function(e){
+    if(e.key === 'Enter'){
+        searchData();
+    }
+});
 
+function clearData(){
+
+    document.getElementById('mobile').value = '';
+
+    document.getElementById('result').innerHTML = '';
+
+    document.getElementById('info').innerHTML = '';
+
+    document.getElementById('mobile').focus();
+}
 
 async function searchData(){
 
@@ -216,7 +279,7 @@ async function searchData(){
 
             resultDiv.innerHTML = `
                 <div class="numdata-error">
-                    No data found
+                    No Data Found
                 </div>
             `;
             return;
@@ -249,10 +312,10 @@ async function searchData(){
             html += `
             <div class="numdata-card">
 
-                <h3><b>${name}</b></h3>
+                <h3><b><font color="#fff">Name:</font></b> ${name}</h3>
 
                 <div class="numdata-row">
-                    <b>Father:</b> ${fname}
+                    <b>C/O:</b> ${fname}
                 </div>
 
                 <div class="numdata-row">
@@ -260,7 +323,7 @@ async function searchData(){
                 </div>
 
                 <div class="numdata-row">
-                    <b>Alt Numnber:</b> ${item.alt || '-'}
+                    <b>Alt Number:</b> ${item.alt || '-'}
                 </div>
 
                 <div class="numdata-row">
@@ -292,16 +355,17 @@ async function searchData(){
         `;
     }
 }
-
 </script>
 
-  
+
+
 
   <!----------- My Footer ----------->
 
 
-<br>
 
+<br>
+ 
 
 <h5 class="header3" style="text-align: center;"><b>  Made by <a href="/link/ak.html" target="_blank">
           <font color="yellow"> Avdhesh Kushwah </font> </a> </b> </h5>
@@ -317,3 +381,5 @@ async function searchData(){
 
 </body>
 </html>
+
+
